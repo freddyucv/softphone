@@ -1,0 +1,53 @@
+<head>
+  <meta charset='ISO-8859-1'>
+
+  <link rel="stylesheet" type="text/css" href="css/softphone.css"/>
+
+  <style>
+    [softphone]{
+      width:300px;
+      height: 600px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<div softphone>
+  <div class="main_panel">
+    <div class="search_panel">
+        <input type="text" placeholder="Ingrese Nombre ó Número" onkeyup="callView.enabledCallingButton()"/>
+
+        <div>
+          <img src="img/search_icon.png"/>
+        </div>
+    </div>
+
+    <div class="numbers_panel">
+
+    </div>
+
+    <div class="call_button_panel">
+      <div class="call_button" onclick="call.call()">
+        <img src="img/call_button_disabled.png"/>
+      </div>
+
+      <div class="hang_up_button">
+        <img src="img/hang_up_button_disabled.png"/>
+      </div>
+    </div>
+
+    <div class="fotter_panel">
+      <span>
+        <img src="img/view_contacts.png" style="float:left"/>
+        <img src="img/new_contact.png" style="float:right"/>
+      </span>
+    </div>
+  </div>
+
+
+</div>
+
+<script src="js/SIPml-api.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="js/softphone.js"></script>
+<script type="text/javascript" src="js/softphoneView.js"></script>
