@@ -17,6 +17,10 @@ function CallView(){
     }
   }
 
+  this.showNumbersPanel = function(){
+    $("[softphone] .numbers_panel").show();
+  }
+
   this.loadNumbers = function(){
     var numberPanel = $("[softphone] .numbers_panel");
     numberPanel.children().remove();
@@ -57,6 +61,7 @@ function CallView(){
 
     $("[softphone] .call_button").attr('disabled', false);
     $("[softphone] .call_button img").attr('src', "img/call_button.png");
+    this.cleanErrorMessage();
 
   }
 
@@ -67,22 +72,37 @@ function CallView(){
 
   }
 
+  this.enabledHangoutButton = function(){
+
+    $("[softphone] .hang_up_button").attr('disabled', false);
+    $("[softphone] .hang_up_button img").attr('src', "img/hang_up_button.png");
+  }
+
+  this.disenabledCallingButton = function(){
+
+    $("[softphone] .hang_up_button").attr('disabled', true);
+    $("[softphone] .hang_up_button img").attr('src', "img/hang_up_button_disabled.png");
+
+  }
+
   this.changeCallingButtonState = function(){
     var numberTyped = $("[softphone] .search_panel input[type='text']").val();
 
     if (numberTyped) {
-      this.enabledCallingButton();
+      callView.enabledCallingButton();
     }else{
       callView.disenabledCallingButton();
     }
   }
 
   this.loadLoginPanel = function(){
-    var numberPanel = $("[softphone] .numbers_panel");
-    var query = ".panel_login .message";
-    numberPanel.children().remove();
-    numberPanel.append(
-                        '<div class="panel panel_login">' +
+    $("[softphone] .numbers_panel").hide();
+    var loginPanel = $("[softphone] .panel");
+    loginPanel.show();
+    loginPanel.children().remove();
+
+    loginPanel.append(
+                        '<div class="dialog_panel panel_login">' +
                           '<h1>Debe Logearse antes de usar el servicio:</h1>' +
                         '<div class="row" style="postion:relative">' +
                             '<input id="login" type="text" placeholder="Login"/>' +
@@ -90,10 +110,8 @@ function CallView(){
                         '<div class="row">' +
                           '<input id="password" type="password" placeholder="Password"/>' +
                         '</div>' +
-                        '<div class="button" onclick="call.login(' + "'" +  query + "'" + ')">' +
+                        '<div class="button" onclick="call.login()">' +
                           '<img src="img/ok_button.png"/>' +
-                        '</div>' +
-                        '<div class="message">' +
                         '</div>' +
                         '</div>'
 
@@ -107,12 +125,31 @@ function CallView(){
 
   this.sstopWaiting = function(q){
     $(q).children(".waiting").remove();
+  }*/
+
+  this.showErrorMessage = function(message){
+    this.showNumbersPanel();
+    $(".message").addClass("error");
+    $(".message").html(message);
+    $(".message").show();
+    $("[softphone] .panel").hide();
   }
 
-  this.showError = function(message){
-    $(q).addCss("error");
-    $(q).html(message);
-  }*/
+  this.cleanErrorMessage = function(message){
+    $(".message").removeClass("error");
+    $(".message").hide();
+  }
+
+  this.showCallingPanel = function(){
+    $("[softphone] .numbers_panel").hide();
+    var loginPanel = $("[softphone] .panel");
+    loginPanel.show();
+    loginPanel.children().remove();
+
+    loginPanel.append(
+                        "<img src='img/calling_panel.png' style='width:100%;height:100%'/>"
+                      );
+  }
 }
 
 var callView = new CallView();
@@ -130,5 +167,7 @@ var callView = new CallView();
 
     $("[softphone] .search_panel input[type='text']").on('keyup',
         callView.changeCallingButtonState);
+
+    $("[softphone] .panel").hide();
   }()
 )

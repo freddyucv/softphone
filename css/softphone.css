@@ -79,6 +79,13 @@
   margin-left: 10%;
 }
 
+[softphone] .panel{
+  width: 80%;
+  height: 50%;
+  margin-top: 10%;
+  margin-left: 10%;
+}
+
 [softphone] .numbers_panel span{
   width: 20%;
   margin: 5%;
@@ -145,7 +152,7 @@
   height: 100%;
 }
 
-[softphone] .panel{
+[softphone] .dialog_panel{
   width: 90%;
   margin-left: 5%;
   background-color: white;
@@ -196,4 +203,11 @@
 
 .error{
   color: red;
+}
+
+.message{
+  width:80%;
+  margin-left: 10%;
+  margin-top: 2px;
+
 }
