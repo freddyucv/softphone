@@ -59,6 +59,7 @@ function Call(){
     }
 
     this.createSipStack = function(){
+         callView.showMessage("Espere...");
 
          this.sipStack = new SIPml.Stack({
                  realm: this.config.domain,
@@ -66,7 +67,7 @@ function Call(){
                  impu: 'sip:' + this.config.username + "@" + this.config.domain,
                  password: this.config.password,
                  enable_rtcweb_breaker: true,
-                 events_listener: { events: '*', listener: this.EventsListener.bind(this) },
+                 events_listener: { events: '*', listener: this.startEventsListener.bind(this) },
                  sip_headers: [
                          { name: 'User-Agent', value: 'IM-client/OMA1.0 sipML5-v1.0.0.0' },
                          { name: 'Organization', value: 'global-link.us' }
@@ -79,9 +80,10 @@ function Call(){
      }
 
      this.startEventsListener = function(e){
-       console.log("-------EVENT " + e.type);
+       console.log("-------EVENT " + e.type + " " + (e.type == "failed_to_start"));
          if(e.type == 'started'){
              try {
+                 callView.cleanMessage();
                  this.oSipSessionRegister = this.sipStack.newSession('register', {
                      expires: 200,
                      events_listener: { events: '*', listener: this.connectionEventsListener.bind(this)},
@@ -96,13 +98,14 @@ function Call(){
              catch (e) {
                callView.showErrorMessage("En este momento el servicio no esta disponible");
              }
-         }else if(e.type == 'stopped'){
+         }else if(e.type == 'stopped' || e.type == "failed_to_start"){
            this.startIntent++;
-
-           if (this.startIntent < 10){
+            console.log("this.startIntent " + this.startIntent);
+           if (this.startIntent < 3){
              this.sipStack.start();
            }else{
-             callView.showErrorMessage("En este momento el servicio no esta disponible");
+             callView.showErrorMessage("En este momento el servicio no esta disponible");             
+             this.sipStack = null;
            }
          }
      }
@@ -134,10 +137,11 @@ function Call(){
           this.calling = true;
       	}else if (e.type == 'connecting'){
           callView.showMessage("Llamando...");
+          this.isHangup = false;
       	}else if(e.type == 'terminating'){
           callView.showMessage("Colgando...");
         }else if(e.type == 'terminated'){
-          if (this.calling){
+          if (this.calling || this.isHangup){
             callView.cleanMessage();
             callView.showNumbersPanel();
           }else{
@@ -168,6 +172,8 @@ function Call(){
             this.callSession.hangup({events_listener: { events: '*', listener: this.callEventListener.bind(this) }});
             callView.enabledCallingButton();
             callView.disenabledHangoutButton();
+            callView.cleanMessage();
+            this.isHangup = true;
         }
     }
 }
