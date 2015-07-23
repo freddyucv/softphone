@@ -19,6 +19,11 @@ function CallView(){
 
   this.showNumbersPanel = function(){
     $("[softphone] .numbers_panel").show();
+    $("[softphone] .panel").hide();
+    $("[softphone] #phoneNumber").val("");
+    this.connected = false;
+    this.calling = false;
+
   }
 
   this.loadNumbers = function(){
@@ -61,7 +66,7 @@ function CallView(){
 
     $("[softphone] .call_button").attr('disabled', false);
     $("[softphone] .call_button img").attr('src', "img/call_button.png");
-    this.cleanErrorMessage();
+    this.cleanMessage();
 
   }
 
@@ -78,7 +83,7 @@ function CallView(){
     $("[softphone] .hang_up_button img").attr('src', "img/hang_up_button.png");
   }
 
-  this.disenabledCallingButton = function(){
+  this.disenabledHangoutButton = function(){
 
     $("[softphone] .hang_up_button").attr('disabled', true);
     $("[softphone] .hang_up_button img").attr('src', "img/hang_up_button_disabled.png");
@@ -129,14 +134,23 @@ function CallView(){
 
   this.showErrorMessage = function(message){
     this.showNumbersPanel();
+    $(".message").removeClass("success");
     $(".message").addClass("error");
     $(".message").html(message);
     $(".message").show();
     $("[softphone] .panel").hide();
   }
 
-  this.cleanErrorMessage = function(message){
+  this.showMessage = function(message){
+    $(".message").addClass("success");
     $(".message").removeClass("error");
+    $(".message").html(message);
+    $(".message").show();
+  }
+
+  this.cleanMessage = function(message){
+    $(".message").removeClass("error");
+    $(".message").removeClass("success");
     $(".message").hide();
   }
 

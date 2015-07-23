@@ -75,7 +75,7 @@
 [softphone] .numbers_panel{
   width: 80%;
   height: 50%;
-  margin-top: 10%;
+  margin-top: 5%;
   margin-left: 10%;
 }
 
@@ -201,13 +201,17 @@
   padding-bottom: 2px;
 }
 
-.error{
+[softphone] .error{
   color: red;
 }
 
-.message{
+[softphone] .success{
+    color:green;
+}
+
+[softphone] .message{
   width:80%;
   margin-left: 10%;
-  margin-top: 2px;
+  margin-top: 5%;
 
 }

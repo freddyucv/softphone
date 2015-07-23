@@ -12,10 +12,13 @@
   </style>
 </head>
 
+<audio id="audio_remote" autoplay="autoplay"></audio>
+
 <div softphone>
   <div class="main_panel">
     <div class="search_panel">
-        <input type="text" placeholder="Ingrese Nombre ó Número" onkeyup="callView.enabledCallingButton()"/>
+        <input id="phoneNumber" type="text" placeholder="Ingrese Nombre ó Número"
+            onkeyup="callView.enabledCallingButton()"/>
 
         <div>
           <img src="img/search_icon.png"/>
@@ -38,7 +41,7 @@
       </div>
 
       <div class="hang_up_button">
-        <img src="img/hang_up_button_disabled.png"/>
+        <img src="img/hang_up_button_disabled.png" onclick="call.sipHangUp()"/>
       </div>
     </div>
 
