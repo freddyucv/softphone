@@ -17,6 +17,10 @@ function CallView(){
     }
   }
 
+  this.deleteAllNumber = function(){
+    $("[softphone] .search_panel input[type='text']").val("");
+  }
+
   this.showNumbersPanel = function(){
     $("[softphone] .numbers_panel").show();
     $("[softphone] .panel").hide();
@@ -42,7 +46,6 @@ function CallView(){
     numberPanel.append(
                         '<span onclick="callView.deleteNumber()">' +
                           '<img src="img/arrow_left_inv.png"/>' +
-                          '<img src="img/shadow.png"/>' +
                         '</span>'
                       );
 
@@ -54,9 +57,8 @@ function CallView(){
                       );
 
     numberPanel.append(
-                        '<span>' +
-                          '<label>#</label>' +
-                          '<img src="img/shadow.png"/>' +
+                        '<span onclick="callView.deleteAllNumber(0)">' +
+                          '<label>__</label>' +
                         '</span>'
                       );
 
@@ -151,7 +153,7 @@ function CallView(){
   this.cleanMessage = function(message){
     $(".message").removeClass("error");
     $(".message").removeClass("success");
-    $(".message").hide();
+    $(".message").html("");
   }
 
   this.showCallingPanel = function(){

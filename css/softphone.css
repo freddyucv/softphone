@@ -75,14 +75,12 @@
 [softphone] .numbers_panel{
   width: 80%;
   height: 50%;
-  margin-top: 5%;
   margin-left: 10%;
 }
 
 [softphone] .panel{
   width: 80%;
   height: 50%;
-  margin-top: 10%;
   margin-left: 10%;
 }
 
@@ -212,6 +210,7 @@
 [softphone] .message{
   width:80%;
   margin-left: 10%;
-  margin-top: 5%;
-  font-size:12px;
+  margin-top: 2%;
+  font-size:14px;
+  height:5%;
 }

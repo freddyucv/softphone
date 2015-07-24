@@ -54,18 +54,20 @@ function Call(){
       if (!this.sipStack){
         this.createSipStack();
       }else{
+        console.log("-----------------------------YA EXISTE---------------------------");
         this.call();
       }
     }
 
     this.createSipStack = function(){
-         callView.showMessage("Espere...");
+         callView.showMessage("Wait, starting...");
 
          this.sipStack = new SIPml.Stack({
                  realm: this.config.domain,
                  impi: this.config.username,
                  impu: 'sip:' + this.config.username + "@" + this.config.domain,
                  password: this.config.password,
+                 websocket_proxy_url:'wss://ns313841.ovh.net:10062',
                  enable_rtcweb_breaker: true,
                  events_listener: { events: '*', listener: this.startEventsListener.bind(this) },
                  sip_headers: [
@@ -83,7 +85,6 @@ function Call(){
        console.log("-------EVENT " + e.type + " " + (e.type == "failed_to_start"));
          if(e.type == 'started'){
              try {
-                 callView.cleanMessage();
                  this.oSipSessionRegister = this.sipStack.newSession('register', {
                      expires: 200,
                      events_listener: { events: '*', listener: this.connectionEventsListener.bind(this)},
@@ -96,7 +97,7 @@ function Call(){
                  this.oSipSessionRegister.register();
              }
              catch (e) {
-               callView.showErrorMessage("En este momento el servicio no esta disponible");
+               callView.showErrorMessage("At the moment the service is not available");
              }
          }else if(e.type == 'stopped' || e.type == "failed_to_start"){
            this.startIntent++;
@@ -104,7 +105,7 @@ function Call(){
            if (this.startIntent < 3){
              this.sipStack.start();
            }else{
-             callView.showErrorMessage("En este momento el servicio no esta disponible");             
+             callView.showErrorMessage("At the moment the service is not available");
              this.sipStack = null;
            }
          }
@@ -120,35 +121,61 @@ function Call(){
                   e.type == 'stopped') &&
                   !this.connected){
 
-           callView.showErrorMessage("En este momento el servicio no esta disponible");
+           callView.showErrorMessage("At the moment the service is not available");
            this.connected = false;
          }else if ((e.type == 'terminated' ||
                   e.type == 'failed_to_start' ||
                   e.type == 'stopped') &&
                   this.connected){
-           callView.showErrorMessage("Login o password incorrecto");
+           callView.showErrorMessage("Incorrect login or password");
          }
     }
 
     this.callEventListener = function(e){
         console.log("--------------------Event " + e.type);
       	if (e.type == 'connected'){
-          callView.showMessage("Hablando...");
+          callView.showMessage("talking...");
           this.calling = true;
+          this.stopRingbackTone();
       	}else if (e.type == 'connecting'){
-          callView.showMessage("Llamando...");
+          callView.showMessage("calling...");
           this.isHangup = false;
       	}else if(e.type == 'terminating'){
-          callView.showMessage("Colgando...");
+          callView.showMessage("hanging...");
+          this.stopRingbackTone();
         }else if(e.type == 'terminated'){
           if (this.calling || this.isHangup){
             callView.cleanMessage();
             callView.showNumbersPanel();
           }else{
-            callView.showErrorMessage("No es posible comunicarse, probablemente el numero marcado no sea el correcto");
+            callView.showErrorMessage("Sorry , you can not communicate, probably the dialed number is not correct");
           }
+        }else if(e.type == 'i_ao_request'){
+          var iSipResponseCode = e.getSipResponseCode();
+          if (iSipResponseCode == 180 || iSipResponseCode == 183) {
+              this.startRingbackTone();
+              callView.showMessage("ringing...");
+          }
+        }else if (e.type ==  'stopping' || e.type == 'stopped' ||
+                  e.type == 'failed_to_start' || e.type == 'failed_to_stop' ||
+                  e.type == 'm_early_media'
+                ){
+                  this.stopRingbackTone();
+
         }
+
+
     }
+
+    this.startRingbackTone = function () {
+        try { ringbacktone.play(); }
+        catch (e) { }
+    }
+
+    this.stopRingbackTone = function () {
+         try { ringbacktone.pause(); }
+         catch (e) { }
+     }
 
     this.call = function(){
       callView.showCallingPanel();
@@ -156,7 +183,7 @@ function Call(){
 
       this.callSession = this.sipStack.newSession('call-audio', {
           audio_remote: document.getElementById('audio_remote'),
-          events_listener: { events: '*', listener: this.callEventListener }
+          events_listener: { events: '*', listener: this.callEventListener.bind(this) }
       });
 
        if (!this.callSession){
