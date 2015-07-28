@@ -3,6 +3,7 @@ function CallView(){
     var numberTyped = $("[softphone] .search_panel input[type='text']").val();
     $("[softphone] .search_panel input[type='text']").val(numberTyped + number);
     this.enabledCallingButton();
+    this.cleanMessage();
   }
 
   this.deleteNumber = function(){
@@ -31,8 +32,10 @@ function CallView(){
   }
 
   this.loadNumbers = function(){
+
     var numberPanel = $("[softphone] .numbers_panel");
     numberPanel.children().remove();
+    $("[softphone] .panel").hide();
 
     for (var i = 1; i < 10; i++){
       numberPanel.append(
@@ -111,10 +114,10 @@ function CallView(){
     loginPanel.append(
                         '<div class="dialog_panel panel_login">' +
                           '<h1>Debe Logearse antes de usar el servicio:</h1>' +
-                        '<div class="row" style="postion:relative">' +
+                        '<div class="row panel_color" style="postion:relative">' +
                             '<input id="login" type="text" placeholder="Login"/>' +
                         '</div>' +
-                        '<div class="row">' +
+                        '<div class="row panel_color">' +
                           '<input id="password" type="password" placeholder="Password"/>' +
                         '</div>' +
                         '<div class="button" onclick="call.login()">' +

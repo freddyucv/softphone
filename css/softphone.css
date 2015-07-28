@@ -126,10 +126,8 @@
   width: 40%;
   background-color: #4581b4;
   display: inline-block;
-}
-
-[softphone] .call_button{
   height:100%;
+  cursor: pointer;
 }
 
 [softphone] .call_button img{
@@ -144,6 +142,7 @@
   height:100%;
   display: inline-block;
   float: right;
+  cursor: pointer;
 }
 
 [softphone] .hang_up_button img{
@@ -167,7 +166,6 @@
   border: none;
   width: 85%;
   height:30px;
-  color: #22356b;
 }
 
 ::-webkit-input-placeholder{
@@ -177,6 +175,7 @@
 [softphone] .button{
   display:inline-block;
   width: 30%;
+  cursor: pointer;
 }
 
 [softphone] .panel .icon{
@@ -195,12 +194,11 @@
 
 [softphone] .panel .row{
   margin-bottom: 5%;
-  border-bottom: white 2px solid;
   padding-bottom: 2px;
 }
 
-[softphone] .error{
-  color: red;
+[softphone] .panel_color{
+  border-bottom: white 2px solid;
 }
 
 [softphone] .success{
@@ -213,4 +211,20 @@
   margin-top: 2%;
   font-size:14px;
   height:5%;
+}
+
+[softphone] .new_contact_button{
+  cursor: pointer;
+}
+
+.error{
+  color: red;
+}
+
+.panel_error{
+  border-bottom: red 2px solid;
+}
+
+.input_success{
+  color: #22356b;
 }

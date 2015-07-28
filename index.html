@@ -15,7 +15,7 @@
 <div softphone>
   <audio id="audio_remote" autoplay="autoplay"></audio>
   <audio id="ringbacktone" loop src="sounds/ringbacktone.wav"></audio>
-  
+
   <div class="main_panel">
     <div class="search_panel">
         <input id="phoneNumber" type="text" placeholder="Ingrese Nombre ó Número"
@@ -49,7 +49,8 @@
     <div class="fotter_panel">
       <span>
         <img src="img/view_contacts.png" style="float:left"/>
-        <img src="img/new_contact.png" style="float:right"/>
+        <img class="new_contact_button" src="img/new_contact.png"
+            style="float:right" onclick="contactView.newContact()"/>
       </span>
     </div>
   </div>
@@ -57,5 +58,7 @@
 
 <script src="js/SIPml-api.js"></script>
 <script src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="js/validator.js"></script>
 <script type="text/javascript" src="js/softphone.js"></script>
 <script type="text/javascript" src="js/softphoneView.js"></script>
+<script type="text/javascript" src="js/contact.js"></script>

@@ -132,7 +132,7 @@ function Call(){
     }
 
     this.callEventListener = function(e){
-        console.log("--------------------Event " + e.type);
+        console.log("--------------------Event " + e.type + " " + e.getSipResponseCode());
       	if (e.type == 'connected'){
           callView.showMessage("talking...");
           this.calling = true;
