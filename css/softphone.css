@@ -217,6 +217,63 @@
   cursor: pointer;
 }
 
+[softphone] .search_contact_button{
+  cursor: pointer;
+}
+
+[softphone] .contact_row{
+    padding:5%;
+    border-bottom: 2px solid #002c73;
+    color: #002c73;
+}
+
+[softphone] .contact_field img{
+    width: 10%;
+}
+
+[softphone] .contact_field{
+  margin-bottom: 5px;
+
+}
+
+
+[softphone] .contact_field span{
+  margin-left: 5%;
+
+}
+
+[softphone] .contacts_container{
+    display: inline-block;
+    width: 100%;
+}
+
+[softphone] .contacts_fix_container{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+
+
+[softphone] ::-webkit-scrollbar  {
+    width: 12px;
+}
+
+[softphone] ::-webkit-scrollbar-thumb   {
+    background-color: #1c6c9a;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+[softphone] ::-webkit-scrollbar-track-piece {
+    background-color: #85a8cb;
+}
+
+[softphone] ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
 .error{
   color: red;
 }
