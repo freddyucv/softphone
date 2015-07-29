@@ -224,7 +224,8 @@
 [softphone] .contact_row{
     padding:5%;
     border-bottom: 2px solid #002c73;
-    color: #002c73;
+    color: white;
+    position: relative;
 }
 
 [softphone] .contact_field img{
@@ -267,11 +268,20 @@
 
 [softphone] ::-webkit-scrollbar-track-piece {
     background-color: #85a8cb;
+    border-radius: 10px;
 }
 
 [softphone] ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     border-radius: 10px;
+}
+
+[softphone]  .edit_contact{
+    cursor: pointer;
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    width: 12%;
 }
 
 .error{
