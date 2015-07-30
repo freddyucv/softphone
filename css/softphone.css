@@ -27,6 +27,8 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
+      -webkit-transform:translate(-50%, -50%);
+      -ms-transform:translate(-50%, -50%);
       height: 80%;
       width: 40%;
 }
@@ -44,6 +46,8 @@
     background-color: white;
     opacity: 0.8;
     border: 1px solid #7796be;
+    position: relative;
+    z-index:1;
 }
 
 [softphone] .search_panel input[type="text"]{
@@ -58,14 +62,14 @@
   outline: 0;
 }
 
-[softphone] .search_panel div{
+[softphone] .search_panel .search_img{
   height: 100%;
   width: 14%;
   display: inline-block;
   float:right;
 }
 
-[softphone] .search_panel div img{
+[softphone] .search_panel .search_img img{
   height: 70%;
   width: 70%;
   margin-left: 15%;
@@ -100,6 +104,8 @@
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
+  -webkit-transform:translate(-50%, -50%);
+  -ms-transform:translate(-50%, -50%);
   cursor: pointer;
 }
 
@@ -184,6 +190,8 @@
   position: absolute;
   top:50%;
   transform: translate(0, -50%);
+  -webkit-transform:translate(0, -50%);
+  -ms-transform:translate(0, -50%);
 }
 
 [softphone] .panel  h1{
@@ -290,6 +298,28 @@
     right: 20%;
     bottom: 5%;
     width: 12%;
+}
+
+[softphone] #search_result_content{
+  display: inline-block;
+  overflow: auto;
+  width: 100%;
+
+  z-index: 1;
+  background-color: #87aacd;
+  position:absolute;
+  bottom:0px;
+  left:0px;
+  transform:translate(0, 100%);
+  -webkit-transform:translate(0, 100%);
+  -ms-transform:translate(0, 100%);
+
+  max-height: 400px;
+}
+
+[softphone]  .search_result{
+  width: 100%;
+  display: inline-block;
 }
 
 .error{

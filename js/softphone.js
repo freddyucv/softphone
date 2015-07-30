@@ -58,6 +58,7 @@ function Call(){
     }
 
     this.checkSipStack = function(){
+      
       if (!this.sipStack){
         this.createSipStack();
       }else{

@@ -60,45 +60,79 @@ function ContactView(){
 
     var contactsContainer = contactPanel.find(".contacts_fix_container .contacts_container");
 
+
     if (contacts.length > 0){
-      for (var i = 0; i < contacts.length; i++){
-        contactsContainer.append(
-          "<div class='contact_row'>" +
-            "<div class='contact_field'>" +
-              "<img src='img/hombre.png'>" +
-              "<span>" + contacts[i].name + "</span>" +
-            "</div>" +
-
-            "<div class='contact_field'>" +
-              "<img src='img/telefono.png'/>" +
-              "<span>" + contacts[i].number + "</span>" +
-            "</div>" +
-
-            "<img class='edit_contact' src='img/edit.png' onclick='contactView.editContact(" + i + ")'></img>" +
-            "<img class='delete_contact' src='img/edit.png' onclick='contact.deleteContact(" + i + ")'></img>" +
-          "</div>"
-        );
-
-      }
+      contactsContainer.append(this.getContactsToShow(contacts, true, false));
     }else{
       callView.showErrorMessage("No contacts to show");
     }
   }
 
+  this.getContactsToShow = function(contacts, showEditButtons, showCallButton){
+    var result = "";
+
+    for (var i = 0; i < contacts.length; i++){
+        result += "<div class='contact_row'>" +
+                    "<div class='contact_field'>" +
+                      "<img src='img/hombre.png'>" +
+                      "<span>" + contacts[i].name + "</span>" +
+                    "</div>" +
+
+                    "<div class='contact_field'>" +
+                      "<img src='img/telefono.png'/>" +
+                      "<span>" + contacts[i].number + "</span>" +
+                    "</div>";
+
+          if (showEditButtons){
+            result += "<img class='edit_contact' src='img/edit.png' onclick='contactView.editContact(" + i + ")'></img>" +
+                      "<img class='delete_contact' src='img/edit.png' onclick='contact.deleteContact(" + i + ")'></img>";
+          }else if(showCallButton){
+            result += "<img class='edit_contact' src='img/call_button.png' onclick='contact.callAutomaticTipeNumber(event, " + contacts[i].number + ")'></img>";
+          }
+
+          result += "</div>";
+    }
+
+    return result;
+
+  }
+
   this.searchContacts = function(){
-    /*alert();
+
       var search = $("#phoneNumber").val();
       var contacts =  JSON.parse(window.localStorage.contacts);
 
       var filter = contacts.filter(function(item){
-                      //var f = "(^" + search + "| " + search + ")";
-                      var f = "F.*";
-                      console.log("item " + item.name);
-                      var rex = new RegExp(f);
-                      console.log("rex.test(item) " + rex.test(item));
-                      return rex.test(item);
+                      var itemNames = item.name.split(" ");
+                      var result = false;
+
+                      for(var i = 0; i < itemNames.length; i++){
+                          if (itemNames[i].indexOf(search) == 0){
+                            return true;
+                          }
+                      }
+
                     });
-      console.log(JSON.stringify(filter));*/
+
+      $("#search_result").children().remove();
+      $("#search_result").append(this.getContactsToShow(filter, false, true));
+
+      if (filter.length > 0){
+        $("#search_result_content").show();
+        $("[softphone] .numbers_panel").hide();
+      }
+  }
+
+  this.hideSearchContactsPanel = function(showNumberPanel, cleanText){
+    $("#search_result_content").hide();
+
+    if (cleanText){
+      $("[softphone] .search_panel input[type='text']").val("");
+    }
+
+    if (showNumberPanel){
+      $("[softphone] .numbers_panel").show();
+    }
   }
 }
 
@@ -155,6 +189,17 @@ function Contact(){
       window.localStorage.contacts = JSON.stringify(contacts);
       contactView.showContacts();
     }
+
+    this.callAutomaticTipeNumber = function(event, number){
+      event = event || window.event
+
+      contactView.hideSearchContactsPanel();
+      $("#phoneNumber").val(number);
+      call.checkLogin();
+
+      event.stopPropagation();
+    }
 }
 
 var contact = new Contact();
+$("#search_result_content").hide();
