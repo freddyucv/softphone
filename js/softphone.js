@@ -3,7 +3,6 @@ function Call(){
     this.checkLogin = function (){
 
         this.connected = true;
-
         if (!sessionStorage.config){
           callView.loadLoginPanel();
         }else{
@@ -14,7 +13,7 @@ function Call(){
 
     this.login = function (){
 
-        this.config = {
+       /*this.config = {
                         "username": "1000007",
                         "password": "sipP@ssword123456",
                         "domain": "dispatcher.global-link.us",
@@ -22,24 +21,32 @@ function Call(){
                         "proxy": "sip:dispatcher.global-link.us;transport=udp"
                       };
         sessionStorage.config = JSON.stringify(this.config);
-        this.checkSipStack();
+        this.checkSipStack();*/
 
-        /*var login = $("#login").val();
+        var login = $("#login").val();
         var password = $("#password").val();
 
         var http = new XMLHttpRequest();
 
-        var url = "https://www.global-link.us/api/accounts/get-account.php?user_email=test@global-link.us&user_password=D3V3L0P3N7";
+        var url = "https://www.global-link.us/api/accounts/get-account.php";
 
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
-                sessionStorage.config = http.responseText;
-                this.config = JSON.parse(http.responseText);
+                var isError = http.responseText.indexOf("Fatal error") != -1;
+
+                if (!isError){
+                  sessionStorage.config = http.responseText;
+                  this.config = JSON.parse(http.responseText);
+
+                  this.checkSipStack();
+                }else{
+                  callView.showErrorMessage("Incorrect login or password");
+                }
 
             }else if(http.readyState == 4){
-                callView.showError("Disculpe, el servicio no esta disponible en este momento");
+              callView.showErrorMessage("Sorry, the service is not available at this time");
             }
-        }
+        }.bind(this);
 
         http.open("POST", url, true);
 
@@ -47,7 +54,7 @@ function Call(){
         formData.append("user_email", login);
         formData.append("user_password", password);
 
-        http.send(formData);*/
+        http.send(formData);
     }
 
     this.checkSipStack = function(){
@@ -61,21 +68,21 @@ function Call(){
 
     this.createSipStack = function(){
          callView.showMessage("Wait, starting...");
+         var config = {
+                         realm: this.config.domain,
+                         impi: this.config.username,
+                         impu: 'sip:' + this.config.username + "@" + this.config.domain,
+                         password: this.config.password,
+                         websocket_proxy_url:'wss://ns313841.ovh.net:10062',
+                         enable_rtcweb_breaker: true,
+                         events_listener: { events: '*', listener: this.startEventsListener.bind(this) },
+                         sip_headers: [
+                                 { name: 'User-Agent', value: 'IM-client/OMA1.0 sipML5-v1.0.0.0' },
+                                 { name: 'Organization', value: 'global-link.us' }
+                         ]
+                     };
 
-         this.sipStack = new SIPml.Stack({
-                 realm: this.config.domain,
-                 impi: this.config.username,
-                 impu: 'sip:' + this.config.username + "@" + this.config.domain,
-                 password: this.config.password,
-                 websocket_proxy_url:'wss://ns313841.ovh.net:10062',
-                 enable_rtcweb_breaker: true,
-                 events_listener: { events: '*', listener: this.startEventsListener.bind(this) },
-                 sip_headers: [
-                         { name: 'User-Agent', value: 'IM-client/OMA1.0 sipML5-v1.0.0.0' },
-                         { name: 'Organization', value: 'global-link.us' }
-                 ]
-             }
-         );
+         this.sipStack = new SIPml.Stack(config);
 
  	      this.sipStack.start();
         this.startIntent = 0;
@@ -178,6 +185,7 @@ function Call(){
      }
 
     this.call = function(){
+
       callView.showCallingPanel();
       callView.enabledHangoutButton();
 

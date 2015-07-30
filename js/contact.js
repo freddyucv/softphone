@@ -75,13 +75,30 @@ function ContactView(){
             "</div>" +
 
             "<img class='edit_contact' src='img/edit.png' onclick='contactView.editContact(" + i + ")'></img>" +
+            "<img class='delete_contact' src='img/edit.png' onclick='contact.deleteContact(" + i + ")'></img>" +
           "</div>"
         );
 
       }
     }else{
-      softphoneView.showErrorMessage("No contacts to show");
+      callView.showErrorMessage("No contacts to show");
     }
+  }
+
+  this.searchContacts = function(){
+    /*alert();
+      var search = $("#phoneNumber").val();
+      var contacts =  JSON.parse(window.localStorage.contacts);
+
+      var filter = contacts.filter(function(item){
+                      //var f = "(^" + search + "| " + search + ")";
+                      var f = "F.*";
+                      console.log("item " + item.name);
+                      var rex = new RegExp(f);
+                      console.log("rex.test(item) " + rex.test(item));
+                      return rex.test(item);
+                    });
+      console.log(JSON.stringify(filter));*/
   }
 }
 
@@ -89,6 +106,7 @@ var contactView = new ContactView();
 
 function Contact(){
     this.newContact = function(){
+      var contacts;
 
       if (window.localStorage.contacts){
         contacts =  JSON.parse(window.localStorage.contacts);
@@ -120,13 +138,22 @@ function Contact(){
     }
 
     this.saveContact = function(){
-        var contactId = $("#contact_id");
+        var contactId = $("#contact_id").val();
 
         if (contactId == -1){
           this.newContact();
         }else{
           this.updateContact();
         }
+    }
+
+    this.deleteContact = function(){
+      var contacts =  JSON.parse(window.localStorage.contacts);
+      var id = $("#contact_id").val();
+      delete contacts.splice(id, 1);
+
+      window.localStorage.contacts = JSON.stringify(contacts);
+      contactView.showContacts();
     }
 }
 
