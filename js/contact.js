@@ -11,6 +11,7 @@ function ContactView(){
 
       callView.cleanMessage();
       $("[softphone] .search_panel input[type='text']").val("");
+      callView.status.push(callView.panels.NEW_CONTACT);
   }
 
   this.editContact = function(index){
@@ -66,6 +67,8 @@ function ContactView(){
     }else{
       callView.showErrorMessage("No contacts to show");
     }
+
+    callView.status.push(callView.panels.SHOW_CONTACTS);
   }
 
   this.getContactsToShow = function(contacts, showEditButtons, showCallButton){
@@ -85,7 +88,7 @@ function ContactView(){
 
           if (showEditButtons){
             result += "<img class='edit_contact' src='img/edit.png' onclick='contactView.editContact(" + i + ")'></img>" +
-                      "<img class='delete_contact' src='img/edit.png' onclick='contact.deleteContact(" + i + ")'></img>";
+                      "<img class='delete_contact' src='img/delete.png' onclick='contact.deleteContact(" + i + ")'></img>";
           }else if(showCallButton){
             result += "<img class='edit_contact' src='img/call_button.png' onclick='contact.callAutomaticTipeNumber(event, " + contacts[i].number + ")'></img>";
           }
@@ -133,9 +136,11 @@ function ContactView(){
         $("[softphone] .search_panel input[type='text']").val("");
       }
 
-      if (showNumberPanel){
+      if (showNumberPanel && !$("[softphone] .panel").is(":visible")){
         $("[softphone] .numbers_panel").show();
       }
+
+      callView.disenabledCallingButton();
     }
   }
 }

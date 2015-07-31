@@ -1,4 +1,5 @@
 function Call(){
+    this.startIntent = 0;
 
     this.checkLogin = function (){
 
@@ -58,7 +59,7 @@ function Call(){
     }
 
     this.checkSipStack = function(){
-      
+
       if (!this.sipStack){
         this.createSipStack();
       }else{
@@ -69,12 +70,15 @@ function Call(){
 
     this.createSipStack = function(){
          callView.showMessage("Wait, starting...");
+
+         var port = 10062 + (1000 * this.startIntent);
+
          var config = {
                          realm: this.config.domain,
                          impi: this.config.username,
                          impu: 'sip:' + this.config.username + "@" + this.config.domain,
                          password: this.config.password,
-                         websocket_proxy_url:'wss://ns313841.ovh.net:10062',
+                        websocket_proxy_url:'wss://ns313841.ovh.net:' + port,
                          enable_rtcweb_breaker: true,
                          events_listener: { events: '*', listener: this.startEventsListener.bind(this) },
                          sip_headers: [
@@ -86,7 +90,7 @@ function Call(){
          this.sipStack = new SIPml.Stack(config);
 
  	      this.sipStack.start();
-        this.startIntent = 0;
+        this.startIntent++;
      }
 
      this.startEventsListener = function(e){
@@ -103,6 +107,7 @@ function Call(){
                          ]
                  });
                  this.oSipSessionRegister.register();
+                 this.startIntent = 0;
              }
              catch (e) {
                callView.showErrorMessage("At the moment the service is not available");
@@ -110,11 +115,12 @@ function Call(){
          }else if(e.type == 'stopped' || e.type == "failed_to_start"){
            this.startIntent++;
             console.log("this.startIntent " + this.startIntent);
-           if (this.startIntent < 3){
-             this.sipStack.start();
+           if (this.startIntent < 4){
+             this.createSipStack();
            }else{
              callView.showErrorMessage("At the moment the service is not available");
              this.sipStack = null;
+             this.startIntent = 0;
            }
          }
      }

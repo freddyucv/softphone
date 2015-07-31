@@ -1,4 +1,13 @@
 function CallView(){
+
+  this.panels = {
+    NUMBER_PANEL: 'NUMBER_PANEL',
+    SHOW_CONTACTS: 'SHOW_CONTACTS',
+    NEW_CONTACT: 'NEW_CONTACT'
+  };
+
+  this.status = [this.panels.NUMBER_PANEL];
+
   this.typeNumber = function (number){
     var numberTyped = $("[softphone] .search_panel input[type='text']").val();
     $("[softphone] .search_panel input[type='text']").val(numberTyped + number);
@@ -28,7 +37,7 @@ function CallView(){
     $("[softphone] #phoneNumber").val("");
     this.connected = false;
     this.calling = false;
-
+    this.status.push(this.panels.NUMBER_PANEL);
   }
 
   this.loadNumbers = function(){
@@ -168,6 +177,21 @@ function CallView(){
     loginPanel.append(
                         "<img src='img/calling_panel.png' style='width:100%;height:100%'/>"
                       );
+  }
+
+  this.goBack = function(){
+
+    var back = this.status[this.status.length-2];
+    this.status = this.status.slice(0, this.status.length-2);
+
+    if (back == this.panels.NUMBER_PANEL){
+      callView.showNumbersPanel();
+    }else if (back == this.panels.SHOW_CONTACTS){
+      contactView.showContacts();
+    }else if (back == this.panels.NEW_CONTACT){
+      contactView.newContact();
+    }
+
   }
 }
 

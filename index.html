@@ -2,6 +2,7 @@
   <meta charset='ISO-8859-1'>
 
   <link rel="stylesheet" type="text/css" href="css/softphone.css"/>
+  <link href='http://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
 
   <style>
     [softphone]{
@@ -54,11 +55,14 @@
 
     <div class="fotter_panel">
       <span>
+        <img class="search_contact_button" src="img/back_button.png"
+           onclick="callView.goBack()"//>
+
         <img class="search_contact_button" src="img/view_contacts.png"
-          style="float:left" onclick="contactView.showContacts()"//>
+           style="margin-left:5%;margin-right:5%;" onclick="contactView.showContacts()"//>
 
         <img class="new_contact_button" src="img/new_contact.png"
-            style="float:right" onclick="contactView.newContact()"/>
+             onclick="contactView.newContact()"/>
       </span>
     </div>
   </div>

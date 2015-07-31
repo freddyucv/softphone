@@ -1,6 +1,15 @@
 @font-face {
     font-family: "number_font";
-    src: url('../font/Abadi_MT_Condensed_Extra_Bold.ttf');
+    src: url('../font/Tabardo-font-FFP.otf');
+}
+
+@font-face {
+    font-family: "text_font";
+    src: url('../font/Verdana.ttf');
+}
+
+[softphone]{
+  font-family: "text_font";
 }
 
 [softphone] .main_panel{
@@ -30,11 +39,12 @@
       -webkit-transform:translate(-50%, -50%);
       -ms-transform:translate(-50%, -50%);
       height: 80%;
-      width: 40%;
+      width: 60%;
 }
 
 [softphone] .fotter_panel span img{
       height: 100%;
+      
 }
 
 [softphone] .search_panel{
@@ -98,7 +108,7 @@
 
 [softphone] .numbers_panel span label{
   color:white;
-  font-family: "number_font";
+  font-family: 'Anton', sans-serif;
   font-size: 300%;
   position: absolute;
   top:50%;
@@ -287,17 +297,17 @@
 [softphone]  .edit_contact{
     cursor: pointer;
     position: absolute;
-    right: 5%;
+    right: 0%;
     bottom: 5%;
-    width: 12%;
+    width: 10%;
 }
 
 [softphone]  .delete_contact{
     cursor: pointer;
     position: absolute;
-    right: 20%;
+    right: 12%;
     bottom: 5%;
-    width: 12%;
+    width: 10%;
 }
 
 [softphone] #search_result_content{
