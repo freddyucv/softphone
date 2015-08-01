@@ -232,10 +232,9 @@ function Contact(){
         }
     }
 
-    this.deleteContact = function(){
+    this.deleteContact = function(index){
       var contacts =  JSON.parse(window.localStorage.contacts);
-      var id = $("#contact_id").val();
-      delete contacts.splice(id, 1);
+      delete contacts.splice(index, 1);
 
       window.localStorage.contacts = JSON.stringify(contacts);
       contactView.showContacts();
