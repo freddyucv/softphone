@@ -1,9 +1,48 @@
+var buttons = [];
+buttons["calling"] = {
+                      query: ".call_button",
+                      img: "img/call_button.png",
+                      disabledImg: "img/call_button_disabled.png"
+                    };
+
+buttons["hang_up"] = {
+                        query: ".hang_up_button",
+                        img: "img/hang_up_button.png",
+                        disabledImg: "img/hang_up_button_disabled.png"
+                      };
+
+buttons["ok"] =  {
+                    query: ".ok_button",
+                    img: "img/ok_button.png",
+                    disabledImg: "img/ok_button_disabled.png"
+                  };
+
+buttons["view_contacts"] = {
+                              query: ".search_contact_button",
+                              img: "img/view_contacts.png",
+                              disabledImg: "img/view_contacts_disabled.png"
+                            };
+
+buttons["new_contact"] =  {
+                            query: ".new_contact_button",
+                            img: "img/new_contact.png",
+                            disabledImg: "img/new_contact_disabled.png"
+                          };
+
+buttons["back_button"] =  {
+                            query: ".back_contact_button",
+                            img: "img/back_button.png",
+                            disabledImg: "img/back_button_disabled.png"
+                          };
+
 function CallView(){
 
   this.panels = {
     NUMBER_PANEL: 'NUMBER_PANEL',
     SHOW_CONTACTS: 'SHOW_CONTACTS',
-    NEW_CONTACT: 'NEW_CONTACT'
+    NEW_CONTACT: 'NEW_CONTACT',
+    SHOW_CONTACTS: 'SHOW_CONTACTS',
+    EDIT_CONTACT: "EDIT_CONTACT"
   };
 
   this.status = [this.panels.NUMBER_PANEL];
@@ -11,7 +50,7 @@ function CallView(){
   this.typeNumber = function (number){
     var numberTyped = $("[softphone] .search_panel input[type='text']").val();
     $("[softphone] .search_panel input[type='text']").val(numberTyped + number);
-    this.enabledCallingButton();
+    this.enabledButton("calling");
     this.cleanMessage();
   }
 
@@ -23,7 +62,7 @@ function CallView(){
     var numberTyped = $("[softphone] .search_panel input[type='text']").val();
 
     if (!numberTyped) {
-      this.disenabledCallingButton();
+      this.disenabledButton("calling");
     }
   }
 
@@ -37,7 +76,11 @@ function CallView(){
     $("[softphone] #phoneNumber").val("");
     this.connected = false;
     this.calling = false;
+
+    this.status = [];
     this.status.push(this.panels.NUMBER_PANEL);
+
+    callView.disenabledButton("back_button");
   }
 
   this.loadNumbers = function(){
@@ -76,41 +119,29 @@ function CallView(){
 
   }
 
-  this.enabledCallingButton = function(){
+  this.enabledButton = function(name){
+    var query = buttons[name].query;
+    var img = buttons[name].img;
 
-    $("[softphone] .call_button").attr('disabled', false);
-    $("[softphone] .call_button img").attr('src', "img/call_button.png");
-    this.cleanMessage();
-
+    $("[softphone]").find(query).removeAttr('disabled');
+    $("[softphone]").find(query).attr('src', img);
   }
 
-  this.disenabledCallingButton = function(){
+  this.disenabledButton = function(name){
+    var query = buttons[name].query;
+    var img = buttons[name].disabledImg;
 
-    $("[softphone] .call_button").attr('disabled', true);
-    $("[softphone] .call_button img").attr('src', "img/call_button_disabled.png");
-
-  }
-
-  this.enabledHangoutButton = function(){
-
-    $("[softphone] .hang_up_button").attr('disabled', false);
-    $("[softphone] .hang_up_button img").attr('src', "img/hang_up_button.png");
-  }
-
-  this.disenabledHangoutButton = function(){
-
-    $("[softphone] .hang_up_button").attr('disabled', true);
-    $("[softphone] .hang_up_button img").attr('src', "img/hang_up_button_disabled.png");
-
+    $("[softphone]").find(query).attr('disabled', 'disabled');
+    $("[softphone]").find(query).attr('src', img);
   }
 
   this.changeCallingButtonState = function(){
     var numberTyped = $("[softphone] .search_panel input[type='text']").val();
 
     if (numberTyped) {
-      callView.enabledCallingButton();
+      callView.enabledButton("calling");
     }else{
-      callView.disenabledCallingButton();
+      callView.disenabledButton("calling");
     }
   }
 
@@ -129,8 +160,8 @@ function CallView(){
                         '<div class="row panel_color">' +
                           '<input id="password" type="password" placeholder="Password"/>' +
                         '</div>' +
-                        '<div class="button" onclick="call.login()">' +
-                          '<img src="img/ok_button.png"/>' +
+                        '<div  class="button" >' +
+                          '<input type="image" class="ok_button src="img/ok_button.png" onclick="call.login()"/>' +
                         '</div>' +
                         '</div>'
 
@@ -205,12 +236,14 @@ var callView = new CallView();
     var cw = $('[softphone] .numbers_panel span').width();
     $('[softphone] .numbers_panel span').css({'height':cw+'px'});
 
-    $("[softphone] .call_button").attr('disabled', true);
-    $("[softphone] .hang_up_button").attr('disabled', true);
+    callView.disenabledButton("calling");
+    callView.disenabledButton("hang_up");
 
     $("[softphone] .search_panel input[type='text']").on('keyup',
         callView.changeCallingButtonState);
 
     $("[softphone] .panel").hide();
+
+
   }()
 )

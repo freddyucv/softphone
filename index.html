@@ -21,7 +21,7 @@
 
     <div class="search_panel" onblur="contactView.hideSearchContactsPanel()">
         <input id="phoneNumber" type="text" placeholder="Ingrese Nombre ó Número"
-            onkeyup="callView.enabledCallingButton();contactView.searchContacts()"
+            onkeyup="callView.();contactView.searchContacts()"
             />
 
         <div class="search_img">
@@ -44,24 +44,25 @@
     </div>
 
     <div class="call_button_panel">
-      <div class="call_button" onclick="call.checkLogin()">
-        <img src="img/call_button_disabled.png"/>
+      <div class="div_call_button">
+        <input class="call_button" type="image" src="img/call_button_disabled.png" onclick="call.checkLogin()"/>
       </div>
 
-      <div class="hang_up_button">
-        <img src="img/hang_up_button_disabled.png" onclick="call.sipHangUp()"/>
+      <div class="div_hang_up_button">
+        <input class="hang_up_button" type="image" src="img/hang_up_button_disabled.png" onclick="call.sipHangUp()"/>
       </div>
     </div>
 
     <div class="fotter_panel">
       <span>
-        <img class="search_contact_button" src="img/back_button.png"
-           onclick="callView.goBack()"//>
+        <input type="image" class="back_contact_button button" src="img/back_button.png"
+           onclick="callView.goBack()"/>
 
-        <img class="search_contact_button" src="img/view_contacts.png"
+
+        <input type="image" class="search_contact_button button" src="img/view_contacts.png"
            style="margin-left:5%;margin-right:5%;" onclick="contactView.showContacts()"//>
 
-        <img class="new_contact_button" src="img/new_contact.png"
+        <input type="image" class="new_contact_button button" src="img/new_contact.png"
              onclick="contactView.newContact()"/>
       </span>
     </div>

@@ -194,7 +194,7 @@ function Call(){
     this.call = function(){
 
       callView.showCallingPanel();
-      callView.enabledHangoutButton();
+      callView.enabledButton("hang_up");
 
       this.callSession = this.sipStack.newSession('call-audio', {
           audio_remote: document.getElementById('audio_remote'),
@@ -212,8 +212,8 @@ function Call(){
     this.sipHangUp = function() {
         if (this.callSession) {
             this.callSession.hangup({events_listener: { events: '*', listener: this.callEventListener.bind(this) }});
-            callView.enabledCallingButton();
-            callView.disenabledHangoutButton();
+            callView.disenabledButton("calling");
+            callView.disenabledButton("hang_up");
             callView.cleanMessage();
             this.isHangup = true;
         }

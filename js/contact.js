@@ -7,11 +7,14 @@ function ContactView(){
       contactPanel.show();
       contactPanel.children().remove();
 
-      this.getContactPanelContent();
+      this.getContactPanelContent("new");
 
       callView.cleanMessage();
       $("[softphone] .search_panel input[type='text']").val("");
       callView.status.push(callView.panels.NEW_CONTACT);
+
+      callView.enabledButton("back_button");
+      callView.disenabledButton("ok");
   }
 
   this.editContact = function(index){
@@ -20,7 +23,7 @@ function ContactView(){
       contactPanel.show();
       contactPanel.children().remove();
 
-      this.getContactPanelContent();
+      this.getContactPanelContent("edit");
 
       var contacts =  JSON.parse(window.localStorage.contacts);
       $("[softphone] .panel").find("#contact_name").val(contacts[index].name);
@@ -29,23 +32,47 @@ function ContactView(){
 
       callView.cleanMessage();
       $("[softphone] .search_panel input[type='text']").val("");
+
+      callView.status.push(callView.panels.EDIT_CONTACT);
+
+      callView.disenabledButton("ok");
   }
 
-  this.getContactPanelContent = function(index){
+  this.getContactPanelContent = function(action){
+
+    var title;
+
+    if (action == "new"){
+        title = "Agregar Contacto";
+    }else{
+      title = "Editar Contacto";
+    }
+
     var contactPanel = $("[softphone] .panel");
     contactPanel.append('<div class="dialog_panel panel_login">' +
-                          '<h1>Agregar Contacto</h1>' +
+                          '<h1>' + title + '</h1>' +
                           '<input type="hidden" id="contact_id" value="-1">' +
                         '<div class="row panel_color" style="postion:relative">' +
-                            '<input id="contact_name" type="text" placeholder="Name"/>' +
+                            '<input id="contact_name" type="text" placeholder="Name" onKeyUp="contactView.activeOkButton()"/>' +
                         '</div>' +
                         '<div class="row panel_color">' +
-                          '<input id="contact_number" type="text" placeholder="Number" onKeyUp="validator.isNumber(this)"/>' +
+                          '<input id="contact_number" type="text" placeholder="Number" onKeyUp="validator.isNumber(this);contactView.activeOkButton()"/>' +
                         '</div>' +
-                        '<div class="button" onclick="contact.saveContact()">' +
-                          '<img src="img/ok_button.png"/>' +
+                        '<div class="button">' +
+                          '<input type="image" class="ok_button" src="img/ok_button.png" onclick="contact.saveContact()"/>' +
                         '</div>' +
                       '</div>');
+  }
+
+  this.activeOkButton = function(){
+    var contactName = $("#contact_name").val();
+    var contactNumber = $("#contact_number").val();
+
+    if (contactName && contactNumber && !$("#contact_number").hasClass("error")){
+      callView.enabledButton("ok");
+    }else{
+      callView.disenabledButton("ok");
+    }
   }
 
   this.showContacts = function(){
@@ -69,6 +96,7 @@ function ContactView(){
     }
 
     callView.status.push(callView.panels.SHOW_CONTACTS);
+    callView.enabledButton("back_button");
   }
 
   this.getContactsToShow = function(contacts, showEditButtons, showCallButton){
@@ -140,7 +168,7 @@ function ContactView(){
         $("[softphone] .numbers_panel").show();
       }
 
-      callView.disenabledCallingButton();
+      callView.dis();
     }
   }
 }
@@ -149,6 +177,7 @@ var contactView = new ContactView();
 
 function Contact(){
     this.newContact = function(){
+
       var contacts;
 
       if (window.localStorage.contacts){
@@ -165,6 +194,8 @@ function Contact(){
       window.localStorage.contacts = JSON.stringify(contacts);
       callView.showNumbersPanel();
       callView.showMessage("Contact successfully added");
+
+      callView.enabledButton("view_contacts");
     }
 
     this.updateContact = function(){
@@ -212,3 +243,17 @@ function Contact(){
 
 var contact = new Contact();
 $("#search_result_content").hide();
+
+(
+
+  function(){
+    callView.disenabledButton("back_button");
+
+    if (!window.localStorage.contacts){
+      callView.disenabledButton("view_contacts");
+    }else{
+      callView.enabledButton("view_contacts");
+    }
+
+  }()
+)

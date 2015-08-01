@@ -42,9 +42,8 @@
       width: 60%;
 }
 
-[softphone] .fotter_panel span img{
-      height: 100%;
-      
+[softphone] .fotter_panel span input[type="image"]{
+    width: 25%;
 }
 
 [softphone] .search_panel{
@@ -138,7 +137,7 @@
   left: 0;
 }
 
-[softphone] .call_button{
+[softphone] .div_call_button{
   width: 40%;
   background-color: #4581b4;
   display: inline-block;
@@ -146,13 +145,13 @@
   cursor: pointer;
 }
 
-[softphone] .call_button img{
+[softphone] .call_button{
   height: 100%;
   float: right;
   height:100%;
 }
 
-[softphone] .hang_up_button{
+[softphone] .div_hang_up_button{
   width: 40%;
   background-color: #4581b4;
   height:100%;
@@ -161,7 +160,7 @@
   cursor: pointer;
 }
 
-[softphone] .hang_up_button img{
+[softphone] .hang_up_button{
   height: 100%;
 }
 
@@ -190,7 +189,7 @@
 
 [softphone] .button{
   display:inline-block;
-  width: 30%;
+  width: 20%;
   cursor: pointer;
 }
 
@@ -231,11 +230,7 @@
   height:5%;
 }
 
-[softphone] .new_contact_button{
-  cursor: pointer;
-}
-
-[softphone] .search_contact_button{
+[softphone] .button{
   cursor: pointer;
 }
 
@@ -330,6 +325,10 @@
 [softphone]  .search_result{
   width: 100%;
   display: inline-block;
+}
+
+.ok_button{
+    width: 10%;
 }
 
 .error{
