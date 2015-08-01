@@ -171,6 +171,17 @@ function ContactView(){
       callView.dis();
     }
   }
+
+  this.activeOkLoginButton = function(){
+    var login = $("#login").val();
+    var password = $("#password").val();
+
+    if (login && password ){
+      callView.enabledButton("ok_login_button");
+    }else{
+      callView.disenabledButton("ok_login_button");
+    }
+  }
 }
 
 var contactView = new ContactView();

@@ -35,6 +35,13 @@ buttons["back_button"] =  {
                             disabledImg: "img/back_button_disabled.png"
                           };
 
+buttons["ok_login_button"] =  {
+                    query: ".ok_login_button",
+                    img: "img/ok_button.png",
+                    disabledImg: "img/ok_button_disabled.png"
+                  };
+
+
 function CallView(){
 
   this.panels = {
@@ -155,17 +162,19 @@ function CallView(){
                         '<div class="dialog_panel panel_login">' +
                           '<h1>Debe Logearse antes de usar el servicio:</h1>' +
                         '<div class="row panel_color" style="postion:relative">' +
-                            '<input id="login" type="text" placeholder="Login"/>' +
+                            '<input id="login" type="text" placeholder="Login" onKeyUp="contactView.activeOkLoginButton()"/>' +
                         '</div>' +
                         '<div class="row panel_color">' +
-                          '<input id="password" type="password" placeholder="Password"/>' +
+                          '<input id="password" type="password" placeholder="Password" onKeyUp="contactView.activeOkLoginButton()"/>' +
                         '</div>' +
                         '<div  class="button" >' +
-                          '<input type="image" class="ok_button src="img/ok_button.png" onclick="call.login()"/>' +
+                          '<input type="image" class="ok_login_button" src="img/ok_button.png" onclick="call.login()"/>' +
                         '</div>' +
                         '</div>'
 
                       );
+
+    callView.disenabledButton("ok_login_button");
 
   }
 
