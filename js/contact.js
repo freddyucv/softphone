@@ -168,7 +168,7 @@ function ContactView(){
         $("[softphone] .numbers_panel").show();
       }
 
-      callView.dis();
+      callView.disenabledButton("calling");
     }
   }
 
