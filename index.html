@@ -9,6 +9,7 @@
       width:300px;
       height: 600px;
       box-sizing: border-box;
+      border: 1px solid black;
     }
   </style>
 </head>
@@ -19,55 +20,70 @@
 
   <div class="main_panel" onclick="contactView.hideSearchContactsPanel(true, true)">
 
-    <div class="search_panel" onblur="contactView.hideSearchContactsPanel()">
-        <input id="phoneNumber" type="text" placeholder="Ingrese Nombre ó Número"
-            onkeyup="contactView.searchContacts()"/>
-
-        <div class="search_img">
-          <img src="img/search_icon.png"/>
-        </div>
-
-        <div id="search_result_content">
-          <div id="search_result"></div>
-        </div>
+    <div class="head_panel">
+      <img src="img/head.png"/>
+      <span></span>
     </div>
 
-    <div class="message"></div>
+    <div class="buttons_bar">
+      <div class="head">
+        <img src="img/small_global_link.png"/>
+        <span class="title_1" style="color:black;margin-left:2%">Call </span>
+        <span class="title_2" style="color:#afafaf">Number</span>
 
-    <div class="numbers_panel">
+        <!--<span class="regitered_status_panel">
+          <span class="status_label"></span>
+          <span class="status_view"></span>
+        </span>-->
+      </div>
 
+      <div class="buttons">
+        <input type="image" class="search_contact_button button" src="img/view_contacts.png"
+         onclick="contactView.showContacts()"//>
+
+         <span class="back" onclick="callView.goBack()">
+           Back
+         </span>
+      </div>
+    </div>
+
+    <div class="call_panel">
+
+      <div class="search_panel" onblur="contactView.hideSearchContactsPanel()">
+          <input id="phoneNumber" type="text" placeholder="Phone Number or Contact Name"
+              onkeyup="contactView.searchContacts()"/>
+
+          <div id="search_result_content">
+            <div id="search_result"></div>
+          </div>
+      </div>
+
+      <div class="message"></div>
+
+      <div class="numbers_panel">
+
+      </div>
+
+      <div class="call_button_panel">
+        <input type="image" class="new_contact_button" src="img/new_contact.png"
+             onclick="contactView.newContact()"/>
+
+        <input class="call_button" type="image" src="img/call_button.png" onclick="call.checkSipStack()"/>
+
+        <input class="delete_number_button" type="image" src="img/delete_number.png" onclick="callView.deleteNumber()"/>
+      </div>
     </div>
 
     <div class="panel">
 
     </div>
 
-    <div class="call_button_panel">
-      <div class="div_call_button">
-        <input class="call_button" type="image" src="img/call_button_disabled.png" onclick="call.checkLogin()"/>
-      </div>
-
-      <div class="div_hang_up_button">
-        <input class="hang_up_button" type="image" src="img/hang_up_button_disabled.png" onclick="call.sipHangUp()"/>
-      </div>
+    <div class="c_panel">
+      <div class="message"></div>
     </div>
-
-    <div class="fotter_panel">
-      <span>
-        <input type="image" class="back_contact_button button" src="img/back_button.png"
-           onclick="callView.goBack()"/>
-
-
-        <input type="image" class="search_contact_button button" src="img/view_contacts.png"
-           style="margin-left:5%;margin-right:5%;" onclick="contactView.showContacts()"//>
-
-        <input type="image" class="new_contact_button button" src="img/new_contact.png"
-             onclick="contactView.newContact()"/>
-      </span>
-    </div>
-  </div>
 </div>
 
+<script type="text/javascript" src="js/moment.min.js"></script>
 <script src="js/SIPml-api.js"></script>
 <script src="js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="js/validator.js"></script>

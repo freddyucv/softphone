@@ -2,7 +2,8 @@ function ContactView(){
 
   this.newContact = function(){
 
-      $("[softphone] .numbers_panel").hide();
+      $("[softphone] .call_panel").hide();
+
       var contactPanel = $("[softphone] .panel");
       contactPanel.show();
       contactPanel.children().remove();
@@ -18,7 +19,6 @@ function ContactView(){
   }
 
   this.editContact = function(index){
-      $("[softphone] .numbers_panel").hide();
       var contactPanel = $("[softphone] .panel");
       contactPanel.show();
       contactPanel.children().remove();
@@ -49,7 +49,7 @@ function ContactView(){
     }
 
     var contactPanel = $("[softphone] .panel");
-    contactPanel.append('<div class="dialog_panel panel_login">' +
+    contactPanel.append('<div class="dialog_panel contact_panel">' +
                           '<h1>' + title + '</h1>' +
                           '<input type="hidden" id="contact_id" value="-1">' +
                         '<div class="row panel_color" style="postion:relative">' +
@@ -58,9 +58,7 @@ function ContactView(){
                         '<div class="row panel_color">' +
                           '<input id="contact_number" type="text" placeholder="Number" onKeyUp="validator.isNumber(this);contactView.activeOkButton()"/>' +
                         '</div>' +
-                        '<div class="button">' +
-                          '<input type="image" class="ok_button" src="img/ok_button.png" onclick="contact.saveContact()"/>' +
-                        '</div>' +
+                        '<input type="image" class="ok_button" src="img/ok_button.png" onclick="contact.saveContact()"/>' +
                       '</div>');
   }
 
@@ -76,7 +74,11 @@ function ContactView(){
   }
 
   this.showContacts = function(){
-    $("[softphone] .numbers_panel").hide();
+    $("[softphone] .call_panel").hide();
+
+    $(".buttons_bar .head .title_1").html("Contact");
+    $(".buttons_bar .head .title_2").html("List");
+
     var contactPanel = $("[softphone] .panel");
     contactPanel.children().remove();
     callView.cleanMessage();
@@ -118,7 +120,7 @@ function ContactView(){
             result += "<img class='edit_contact' src='img/edit.png' onclick='contactView.editContact(" + i + ")'></img>" +
                       "<img class='delete_contact' src='img/delete.png' onclick='contact.deleteContact(" + i + ")'></img>";
           }else if(showCallButton){
-            result += "<img class='edit_contact' src='img/call_button.png' onclick='contact.callAutomaticTipeNumber(event, " + contacts[i].number + ")'></img>";
+            result += "<img class='call_contact' src='img/call_button.png' onclick='contact.callAutomaticTipeNumber(event, " + contacts[i].number + ")'></img>";
           }
 
           result += "</div>";
@@ -152,6 +154,7 @@ function ContactView(){
         if (filter.length > 0){
           $("#search_result_content").show();
           $("[softphone] .numbers_panel").hide();
+          $("[softphone] .call_button_panel").hide();
         }
       }
   }
@@ -219,7 +222,7 @@ function Contact(){
 
       window.localStorage.contacts = JSON.stringify(contacts);
       callView.showNumbersPanel();
-      callView.showMessage("Contact successfully added");
+      callView.showMessage("Contact successfully updated");
     }
 
     this.saveContact = function(){
@@ -245,7 +248,7 @@ function Contact(){
 
       contactView.hideSearchContactsPanel();
       $("#phoneNumber").val(number);
-      call.checkLogin();
+      call.checkSipStack();
 
       event.stopPropagation();
     }

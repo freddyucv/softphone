@@ -3,12 +3,12 @@ function Call(){
 
     this.checkLogin = function (){
 
-        this.connected = true;
+        //this.connected = true;
         if (!sessionStorage.config){
           callView.loadLoginPanel();
         }else{
           this.config = JSON.parse(sessionStorage.config);
-          this.checkSipStack();
+          callView.loadNumbers();
         }
     }
 
@@ -32,6 +32,7 @@ function Call(){
         var url = "https://www.global-link.us/api/accounts/get-account.php";
 
         http.onreadystatechange = function() {
+
             if (http.readyState == 4 && http.status == 200) {
                 var isError = http.responseText.indexOf("Fatal error") != -1;
 
@@ -39,13 +40,13 @@ function Call(){
                   sessionStorage.config = http.responseText;
                   this.config = JSON.parse(http.responseText);
 
-                  this.checkSipStack();
+                  callView.loadNumbers();
                 }else{
-                  callView.showErrorMessage("Incorrect login or password");
+                  callView.showErrorLoginMessage("Incorrect login or password");
                 }
 
             }else if(http.readyState == 4){
-              callView.showErrorMessage("Sorry, the service is not available at this time");
+              callView.showErrorLoginMessage("Sorry, the service is not available at this time");
             }
         }.bind(this);
 
@@ -63,7 +64,6 @@ function Call(){
       if (!this.sipStack){
         this.createSipStack();
       }else{
-        console.log("-----------------------------YA EXISTE---------------------------");
         this.call();
       }
     }
@@ -157,12 +157,17 @@ function Call(){
       	}else if(e.type == 'terminating'){
           callView.showMessage("hanging...");
           this.stopRingbackTone();
+          $("[softphone]  .c_panel").hide();
         }else if(e.type == 'terminated'){
           if (this.calling || this.isHangup){
             callView.cleanMessage();
-            callView.showNumbersPanel();
+            this.stopCall();
+            $("[softphone]  .c_panel").hide();
+            this.stopRingbackTonec_panel
           }else{
             callView.showErrorMessage("Sorry , you can not communicate, probably the dialed number is not correct");
+            this.stopCall();
+            this.stopRingbackTone();
           }
         }else if(e.type == 'i_ao_request'){
           var iSipResponseCode = e.getSipResponseCode();
@@ -181,6 +186,13 @@ function Call(){
 
     }
 
+    this.stopCall = function (){
+      $("[softphone]  .c_panel").hide();
+      $("[softphone]  .call_panel").show();
+      $("[softphone]  .buttons_bar").show();
+
+    }
+
     this.startRingbackTone = function () {
         try { ringbacktone.play(); }
         catch (e) { }
@@ -192,7 +204,6 @@ function Call(){
      }
 
     this.call = function(){
-
       callView.showCallingPanel();
       callView.enabledButton("hang_up");
 
@@ -202,7 +213,7 @@ function Call(){
       });
 
        if (!this.callSession){
-         callView.showError("Disculpe, el servicio no esta disponible en este momento");
+         callView.showError("Sorry, the service is not available at this time");
        }else{
           var phoneNumber = $("#phoneNumber").val();
           this.callSession.call(phoneNumber);
@@ -216,6 +227,7 @@ function Call(){
             callView.disenabledButton("hang_up");
             callView.cleanMessage();
             this.isHangup = true;
+            $("[softphone]  .c_panel").hide();
         }
     }
 }
