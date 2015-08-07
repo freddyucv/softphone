@@ -94,7 +94,7 @@ function Call(){
      }
 
      this.startEventsListener = function(e){
-       console.log("-------EVENT " + e.type + " " + (e.type == "failed_to_start"));
+       console.log("-------EVENT " + e.type + " " + (e.type == 'm_permission_refused') + " " + (e.type == "failed_to_start"));
          if(e.type == 'started'){
              try {
                  this.oSipSessionRegister = this.sipStack.newSession('register', {
@@ -122,6 +122,9 @@ function Call(){
              this.sipStack = null;
              this.startIntent = 0;
            }
+         }else if(e.type == 'm_permission_refused'){
+           callView.showErrorMessage("You must grant permission to use the microphone");
+           //sessionStorage.config
          }
      }
 
@@ -141,7 +144,12 @@ function Call(){
                   e.type == 'failed_to_start' ||
                   e.type == 'stopped') &&
                   this.connected){
-           callView.showErrorMessage("Incorrect login or password");
+
+           this.oSipSessionRegister = null;
+
+           if (this.calling){
+             callView.loadNumbers();
+           }
          }
     }
 
@@ -151,29 +159,38 @@ function Call(){
           callView.showMessage("talking...");
           this.calling = true;
           this.stopRingbackTone();
+          callView.startCallingTime();
       	}else if (e.type == 'connecting'){
           callView.showMessage("calling...");
           this.isHangup = false;
       	}else if(e.type == 'terminating'){
-          callView.showMessage("hanging...");
-          this.stopRingbackTone();
-          $("[softphone]  .c_panel").hide();
+
+          if(this.calling){
+            callView.showMessage("hanging...");
+            this.stopRingbackTone();
+            $("[softphone]  .c_panel").hide();
+          }/*else{
+            callView.showErrorMessage("Unexpected error");
+            $("[softphone]  .c_panel").hide();
+            callView.loadNumbers();
+          }*/
         }else if(e.type == 'terminated'){
+          this.stopCall();
+          this.stopRingbackTone();
+
           if (this.calling || this.isHangup){
             callView.cleanMessage();
-            this.stopCall();
             $("[softphone]  .c_panel").hide();
-            this.stopRingbackTonec_panel
           }else{
             callView.showErrorMessage("Sorry , you can not communicate, probably the dialed number is not correct");
-            this.stopCall();
-            this.stopRingbackTone();
+
           }
         }else if(e.type == 'i_ao_request'){
           var iSipResponseCode = e.getSipResponseCode();
           if (iSipResponseCode == 180 || iSipResponseCode == 183) {
               this.startRingbackTone();
               callView.showMessage("ringing...");
+              callView.showCallingPanel();
           }
         }else if (e.type ==  'stopping' || e.type == 'stopped' ||
                   e.type == 'failed_to_start' || e.type == 'failed_to_stop' ||
@@ -204,7 +221,7 @@ function Call(){
      }
 
     this.call = function(){
-      callView.showCallingPanel();
+      console.log("Call");
       callView.enabledButton("hang_up");
 
       this.callSession = this.sipStack.newSession('call-audio', {
@@ -228,6 +245,7 @@ function Call(){
             callView.cleanMessage();
             this.isHangup = true;
             $("[softphone]  .c_panel").hide();
+            callView.loadNumbers();
         }
     }
 }

@@ -45,13 +45,13 @@
 }
 
 [softphone] .buttons_bar{
-    height: 11%;
+    height: 8%;
     position: relative;
 }
 
 [softphone] .search_panel{
     width:100%;
-    height:15%;
+    height:18%;
     margin-left:0%;
     display: inline-block;
     background-color: white;
@@ -98,11 +98,13 @@
 }
 
 [softphone] .buttons_bar .buttons{
-  width: 100%;
+  width: 20%;
+  float:right;
+  margin-right: 5%;
 }
 
 [softphone] .buttons_bar .buttons input[type="image"]{
-  width: 10%;
+  width: 60%;
   margin-left:2%;
   margin-right:2%;"
 }
@@ -138,9 +140,12 @@
 }
 
 [softphone] .panel{
-  width: 80%;
-  height: 50%;
-  margin-left: 10%;
+  width: 95%;
+  height: 80%;
+  margin-left: 2.5%;
+
+  border-top: 2px solid #002c73;
+  margin-top: 5%;
 }
 
 [softphone] .numbers_panel div{
@@ -178,7 +183,9 @@
 [softphone] .call_button_panel{
   width: 80%;
   height: 15%;
-  position: relative;
+  position: absolute;
+  left:0px;
+  bottom: 0px;
   margin-left: 10%;
 }
 
@@ -235,6 +242,7 @@
     font-weight: bold;
     font-size: 14px;
     border: 0px;
+    cursor:pointer;
 }
 
 [softphone] .panel_login input{
@@ -281,7 +289,7 @@
   padding:5px;
 
   font-size:12px;
-  height:5%;
+  height:8%;
   box-sizing: border-box;
 }
 
@@ -294,6 +302,8 @@
     border-bottom: 2px solid #002c73;
     color: white;
     position: relative;
+    width: 80%;
+
 }
 
 [softphone] .contact_field img{
@@ -310,7 +320,7 @@
   font-size:10px;
   right:5px;
   position: absolute;
-  bottom:5px;
+  top:7px;
   cursor: pointer;
 }
 
@@ -322,6 +332,7 @@
 [softphone] .contacts_container{
     display: inline-block;
     width: 100%;
+
 }
 
 [softphone] .contacts_fix_container{
@@ -333,7 +344,9 @@
 
 
 [softphone] ::-webkit-scrollbar  {
-    width: 12px;
+    width: 4px;
+    height: 98%;
+    margin-top: 1%;
 }
 
 [softphone] ::-webkit-scrollbar-thumb   {
@@ -392,31 +405,39 @@
 
 [softphone] .calling_panel{
     width: 100%;
-    height: 90%;
+    height: 100%;
     margin-left: 0;
     margin-top: 0;
     background-color: #38618f;
-}
+    position: relative;
+  }
 
-[softphone] .calling_panel img{
+[softphone] .calling_panel .calling_image {
     position: absolute;
     left:50%;
-    top:35%;
-    transform: translate(-50%, -50%);
+    top:30%;
+    transform: translate(-50%, 0%);
     width: 60%;
+    display: inline-block;
+}
+
+[softphone] .calling_panel .calling_image div{
+  font-size: 150%;
+  color: #56b5ec;
 }
 
 [softphone] .calling_panel .phone_number{
   width: 100%;
   height: 5%;
-  margin-left: 5%;
-  margin-top: 10%;
+  left: 5%;
+  top: 10%;
+  position: absolute;
   color:white;
 }
 
 [softphone] .calling_panel input[type='image']{
   width: 100%;
-  height: 10%;
+  height: 5%;
   position: absolute;
   bottom: 0px;
   left: 0px;

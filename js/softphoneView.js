@@ -13,13 +13,13 @@ buttons["hang_up"] = {
 buttons["ok"] =  {
                     query: ".ok_button",
                     img: "img/ok_button.png",
-                    disabledImg: "ok_button_disabled.png"
+                    disabledImg: "img/ok_button_disabled.png"
                   };
 
 buttons["view_contacts"] = {
                               query: ".search_contact_button",
                               img: "img/view_contacts.png",
-                              disabledImg: "img/view_contacts_disabled.png"
+                              disabledImg: "img/view_contacts.png"
                             };
 
 buttons["new_contact"] =  {
@@ -48,14 +48,7 @@ function CallView(){
     EDIT_CONTACT: "EDIT_CONTACT"
   };
 
-  this.showTime = function(){
-    var time = moment().format("hh:mm");;
-    $(".main_panel .head_panel span").html(time);
-  }
-
   this.status = [this.panels.NUMBER_PANEL];
-  this.showTime();
-  setInterval(this.showTime, 1000);
 
   this.typeNumber = function (number){
     var numberTyped = $("[softphone] .search_panel input[type='text']").val();
@@ -96,6 +89,8 @@ function CallView(){
   this.loadNumbers = function(){
 
     var numberPanel = $("[softphone] .numbers_panel");
+    $("[softphone]  .message").html("");
+    $("[softphone] .search_panel input[type='text']").val("");
     numberPanel.children().remove();
     $("[softphone] .panel").hide();
 
@@ -134,11 +129,10 @@ function CallView(){
     $("[softphone] .call_panel").show();
     $("[softphone] .buttons_bar").show();
     $("[softphone] .panel").hide();
+    $("[softphone] .c_panel").hide();
 
     $(".buttons_bar .head .title_1").html("Call");
     $(".buttons_bar .head .title_2").html("Number");
-
-//    $("[softphone] .search_panel input[type='text']").show();
   }
 
   this.enabledButton = function(name){
@@ -150,6 +144,10 @@ function CallView(){
     if (img){
       $("[softphone]").find(query).attr('src', img);
     }
+
+    if (name == 'back_button'){
+      $("[softphone] .back").show();
+    }
   }
 
   this.disenabledButton = function(name){
@@ -160,6 +158,10 @@ function CallView(){
 
     if (img){
       $("[softphone]").find(query).attr('src', img);
+    }
+
+    if (name == 'back_button'){
+      $("[softphone] .back").hide();
     }
   }
 
@@ -236,6 +238,7 @@ function CallView(){
   }
 
   this.showCallingPanel = function(){
+    console.log("showCallingPanel");
     $("[softphone] .call_panel").hide();
     $("[softphone] .buttons_bar").hide();
 
@@ -248,10 +251,35 @@ function CallView(){
     loginPanel.append(
                         "<div class='calling_panel'>" +
                         "<span class='phone_number'>" + phoneNumber + "</span>" +
-                        "<img src='img/panel_calling.png'/>" +
-                        "<input type='image' src='img/hang_up_button.png'>" +
+                        "<div class='calling_image'>" +
+                          "<img style='width:100%' src='img/panel_calling.png'/>" +
+                          "<div style='margin-top:2%;text-align:center'>00:00</div>" +
+                        "</div>" +
+                        "<input type='image' src='img/hang_up_button.png' onclick='call.sipHangUp()'>" +
                         "</div>"
                       );
+  }
+
+  this.startCallingTime = function (){
+    this.callLast = 0;
+    this.callLastTimeout = setInterval(this.callLastShow.bind(this), 1000);
+  }
+  
+  this.callLastShow = function (){
+    this.callLast++;
+
+    var seconds = parseInt(this.callLast % 60);
+    var minutes = parseInt(this.callLast / 60);
+
+    if (seconds < 10){
+        seconds = "0" + seconds;
+    }
+
+    if (minutes < 10){
+      minutes = "0" + minutes;
+    }
+
+    $("[softphone] .c_panel .calling_panel .calling_image div").html(minutes + ":" + seconds);
   }
 
   this.goBack = function(){
@@ -287,5 +315,7 @@ var callView = new CallView();
         callView.changeCallingButtonState);
 
     $("[softphone]  .calling_panel").hide();
+
+    $("[softphone] .back").hide();
   }()
 )
