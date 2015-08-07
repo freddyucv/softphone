@@ -178,12 +178,15 @@ function Call(){
           this.stopCall();
           this.stopRingbackTone();
 
+          if (callView.callLastTimeout){
+            clearTimeout(callView.callLastTimeout);
+          }
+
           if (this.calling || this.isHangup){
             callView.cleanMessage();
             $("[softphone]  .c_panel").hide();
           }else{
             callView.showErrorMessage("Sorry , you can not communicate, probably the dialed number is not correct");
-
           }
         }else if(e.type == 'i_ao_request'){
           var iSipResponseCode = e.getSipResponseCode();

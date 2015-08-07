@@ -258,13 +258,15 @@ function CallView(){
                         "<input type='image' src='img/hang_up_button.png' onclick='call.sipHangUp()'>" +
                         "</div>"
                       );
+
+    this.callLast = 0;                      
   }
 
   this.startCallingTime = function (){
     this.callLast = 0;
     this.callLastTimeout = setInterval(this.callLastShow.bind(this), 1000);
   }
-  
+
   this.callLastShow = function (){
     this.callLast++;
 
