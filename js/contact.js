@@ -93,12 +93,14 @@ function ContactView(){
       var contactsContainer = contactPanel.find(".contacts_fix_container .contacts_container");
 
       contactsContainer.append(this.getContactsToShow(contacts, true, false));
+
+      callView.status.push(callView.panels.SHOW_CONTACTS);
+      callView.enabledButton("back_button");
+
     }else{
       callView.showErrorMessage("No contacts to show");
     }
 
-    callView.status.push(callView.panels.SHOW_CONTACTS);
-    callView.enabledButton("back_button");
   }
 
   this.getContactsToShow = function(contacts, showEditButtons, showCallButton){
@@ -153,8 +155,6 @@ function ContactView(){
 
         if (filter.length > 0){
           $("#search_result_content").show();
-          $("[softphone] .numbers_panel").hide();
-          $("[softphone] .call_button_panel").hide();
         }
       }
   }
@@ -261,12 +261,6 @@ $("#search_result_content").hide();
 
   function(){
     callView.disenabledButton("back_button");
-
-    if (!window.localStorage.contacts){
-      callView.disenabledButton("view_contacts");
-    }else{
-      callView.enabledButton("view_contacts");
-    }
 
   }()
 )

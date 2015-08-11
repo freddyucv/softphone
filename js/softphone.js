@@ -1,6 +1,15 @@
 function Call(){
     this.startIntent = 0;
 
+    this.dtmf = function (c){
+
+      if(this.callSession && c){
+          if(this.callSession.dtmf(c) == 0){
+              try { document.getElementById("dtmfTone").play(); } catch(e){ }
+          }
+      }
+    }
+
     this.checkLogin = function (){
 
         //this.connected = true;
@@ -111,6 +120,7 @@ function Call(){
              }
              catch (e) {
                callView.showErrorMessage("At the moment the service is not available");
+               this.startIntent = 0;
              }
          }else if(e.type == 'stopped' || e.type == "failed_to_start"){
            this.startIntent++;

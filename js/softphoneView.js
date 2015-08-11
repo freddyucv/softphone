@@ -94,33 +94,7 @@ function CallView(){
     numberPanel.children().remove();
     $("[softphone] .panel").hide();
 
-    for (var i = 1; i < 10; i++){
-      numberPanel.append(
-                          '<div onclick="callView.typeNumber(' + i + ')">' +
-                            '<label>' + i + '</label>' +
-                            /*'<img src="img/shadow.png"/>' +*/
-                          '</div>'
-                        );
-    }
-
-    numberPanel.append(
-                        '<div onclick="callView.deleteNumber()">' +
-                          '<label>*</label>' +
-                        '</div>'
-                      );
-
-    numberPanel.append(
-                        '<div onclick="callView.typeNumber(0)">' +
-                          '<label>0</label>' +
-                          /*'<img src="img/shadow.png"/>' +*/
-                        '</div>'
-                      );
-
-    numberPanel.append(
-                        '<div onclick="callView.deleteAllNumber(0)">' +
-                          '<label>#</label>' +
-                        '</div>'
-                      );
+    this.loadNumbersInPanel(numberPanel);
 
     $("[softphone] .main_panel").css('background-image', '');
     $("[softphone] .main_panel").css('background-color', 'white');
@@ -133,6 +107,36 @@ function CallView(){
 
     $(".buttons_bar .head .title_1").html("Call");
     $(".buttons_bar .head .title_2").html("Number");
+  }
+
+  this.loadNumbersInPanel = function(numberPanel){
+    for (var i = 1; i < 10; i++){
+      numberPanel.append(
+                          '<div onclick="callView.typeNumber(' + i + ')">' +
+                            '<label>' + i + '</label>' +
+                            /*'<img src="img/shadow.png"/>' +*/
+                          '</div>'
+                        );
+    }
+
+    numberPanel.append(
+                        '<div onclick="callView.typeNumber(' + "*" + ')">' +
+                          '<label>*</label>' +
+                        '</div>'
+                      );
+
+    numberPanel.append(
+                        '<div onclick="callView.typeNumber(0)">' +
+                          '<label>0</label>' +
+                          /*'<img src="img/shadow.png"/>' +*/
+                        '</div>'
+                      );
+
+    numberPanel.append(
+                        '<div onclick="callView.typeNumber(' + "#" + ')">' +
+                          '<label>#</label>' +
+                        '</div>'
+                      );
   }
 
   this.enabledButton = function(name){
@@ -190,7 +194,6 @@ function CallView(){
                         '<input type="button" class="ok_login_button" onclick="call.login()" value="Start calling!"/>' +
                         '<div class="message_login"></div>' +
                         '</div>'
-
                       );
 
     callView.disenabledButton("ok_login_button");
@@ -255,11 +258,32 @@ function CallView(){
                           "<img style='width:100%' src='img/panel_calling.png'/>" +
                           "<div style='margin-top:2%;text-align:center'>00:00</div>" +
                         "</div>" +
+                        "<div class='keypad' onclick='callView.showKeypad()'>Keypad</div>" +
+                        "<div class='numbers_panel'></div>" +
                         "<input type='image' src='img/hang_up_button.png' onclick='call.sipHangUp()'>" +
                         "</div>"
                       );
 
-    this.callLast = 0;                      
+    this.callLast = 0;
+  }
+
+  this.showKeypad = function(){
+
+      var numberPanel = $("[softphone] .calling_panel .numbers_panel");
+
+      if(numberPanel.is(":visible")){
+        numberPanel.hide();
+      }else{
+        numberPanel.children().remove();
+        this.loadNumbersInPanel(numberPanel);
+        numberPanel.show();
+
+        numberPanel.children("div").each(function() {
+          $(this).click(function(){
+            call.dtmf($(this).children("label").text());
+          });
+        });
+      }
   }
 
   this.startCallingTime = function (){
