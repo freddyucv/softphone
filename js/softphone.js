@@ -23,16 +23,7 @@ function Call(){
 
     this.login = function (){
 
-       /*this.config = {
-                        "username": "1000007",
-                        "password": "sipP@ssword123456",
-                        "domain": "dispatcher.global-link.us",
-                        "transport": "udp",
-                        "proxy": "sip:dispatcher.global-link.us;transport=udp"
-                      };
-        sessionStorage.config = JSON.stringify(this.config);
-        this.checkSipStack();*/
-
+        callView.showLoginWaiting();
         var login = $("#login").val();
         var password = $("#password").val();
 
@@ -54,6 +45,7 @@ function Call(){
                   callView.showErrorLoginMessage("Incorrect login or password");
                 }
 
+                callView.hideLoginWaiting();
             }else if(http.readyState == 4){
               callView.showErrorLoginMessage("Sorry, the service is not available at this time");
             }
@@ -66,6 +58,17 @@ function Call(){
         formData.append("user_password", password);
 
         http.send(formData);
+    }
+
+    this.logout = function (){
+
+        callView.loadLoginPanel();
+        $("#login").val("");
+        $("#password").val("");
+
+        sessionStorage.removeItem("config");
+        this.config = null;
+        callView.hideLoginWaiting();
     }
 
     this.checkSipStack = function(){

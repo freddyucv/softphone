@@ -185,14 +185,27 @@ function CallView(){
 
     mainPanel.append(
                         '<div class="dialog_panel panel_login">' +
-                        '<div class="row panel_color" style="postion:relative">' +
-                            '<input id="login" type="text" placeholder="Username" onKeyUp="contactView.activeOkLoginButton()"/>' +
-                        '</div>' +
-                        '<div class="row panel_color">' +
-                          '<input id="password" type="password" placeholder="Password" onKeyUp="contactView.activeOkLoginButton()"/>' +
-                        '</div>' +
-                        '<input type="button" class="ok_login_button" onclick="call.login()" value="Start calling!"/>' +
-                        '<div class="message_login"></div>' +
+                            '<div class="row panel_color" style="postion:relative">' +
+                                '<input id="login" type="text" placeholder="Username" onKeyUp="contactView.activeOkLoginButton()"/>' +
+                            '</div>' +
+                            '<div class="row panel_color">' +
+                              '<input id="password" type="password" placeholder="Password" onKeyUp="contactView.activeOkLoginButton()"/>' +
+                            '</div>' +
+                            '<input type="button" class="ok_login_button" onclick="call.login()" value="Start calling!"/>' +
+                            '<div class="message_login"></div>' +
+                            '<div class="waiting_panel">' +
+                              '<div id="circularG">' +
+                                	'<div id="circularG_1" class="circularG"></div>' +
+                                  '<div id="circularG_2" class="circularG"></div>' +
+                                  '<div id="circularG_3" class="circularG"></div>' +
+                                  '<div id="circularG_4" class="circularG"></div>' +
+                                  '<div id="circularG_5" class="circularG"></div>' +
+                                  '<div id="circularG_6" class="circularG"></div>' +
+                                  '<div id="circularG_7" class="circularG"></div>' +
+                                  '<div id="circularG_8" class="circularG"></div>' +
+                              '</div>' +
+                              '<div class="waiting_label">Waiting...</div>' +
+                            '</div>' +
                         '</div>'
                       );
 
@@ -322,6 +335,14 @@ function CallView(){
     }
 
   }
+
+  this.showLoginWaiting = function(){
+    $(".waiting_panel").show();
+  }
+
+  this.hideLoginWaiting = function(){
+    $(".waiting_panel").hide();
+  }
 }
 
 var callView = new CallView();
@@ -343,5 +364,6 @@ var callView = new CallView();
     $("[softphone]  .calling_panel").hide();
 
     $("[softphone] .back").hide();
+    callView.hideLoginWaiting();
   }()
 )

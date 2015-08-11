@@ -2,6 +2,7 @@
   <meta charset='ISO-8859-1'>
 
   <link rel="stylesheet" type="text/css" href="css/softphone.css"/>
+  <link rel="stylesheet" type="text/css" href="css/waiting.css"/>
   <link href='http://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
 
   <style>
@@ -34,6 +35,9 @@
         <div class="buttons">
           <input type="image" class="search_contact_button button" src="img/view_contacts.png"
            onclick="contactView.showContacts()"//>
+
+           <input type="image" class="search_contact_button button" src="img/exit.jpg"
+            onclick="call.logout()"//>
 
            <span class="back" onclick="callView.goBack()">
              Back
