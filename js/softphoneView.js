@@ -107,6 +107,7 @@ function CallView(){
 
     $(".buttons_bar .head .title_1").html("Call");
     $(".buttons_bar .head .title_2").html("Number");
+    callView.makeResponsive();
   }
 
   this.loadNumbersInPanel = function(numberPanel){
@@ -296,6 +297,15 @@ function CallView(){
             call.dtmf($(this).children("label").text());
           });
         });
+
+        var width = $("[softphone]").width();
+        $("[softphone]").height(width * 2);
+        if (width < 150){
+          $("[softphone] .calling_panel .numbers_panel div label").css('font-size', '70%');
+        }else if (width < 200){
+          $("[softphone] .calling_panel .numbers_panel div label").css('font-size', '100%');
+        }
+
       }
   }
 
@@ -343,6 +353,25 @@ function CallView(){
   this.hideLoginWaiting = function(){
     $(".waiting_panel").hide();
   }
+
+  this.makeResponsive = function(){
+    var width = $("[softphone]").width();
+    $("[softphone]").height(width * 2);
+
+    if (width < 150){
+      $("[softphone] .search_panel input[type='text']").css('font-size', '50%');
+      $("[softphone] .numbers_panel div").css('height', '20%');
+      $("[softphone] .numbers_panel div label").css('font-size', '70%');
+      $("[softphone] .buttons_bar .buttons input[type='image']").height(15);
+      $("[softphone] .buttons_bar").css('height', 'auto');
+      $("[softphone] .buttons_bar").css('display', 'inline-block');
+    }else if (width < 200){
+      $("[softphone] .search_panel input[type='text']").css('font-size', '60%');
+      $("[softphone] .numbers_panel div label").css('font-size', '200%');
+
+
+    }
+  }
 }
 
 var callView = new CallView();
@@ -365,5 +394,7 @@ var callView = new CallView();
 
     $("[softphone] .back").hide();
     callView.hideLoginWaiting();
+
+    callView.makeResponsive();
   }()
 )
