@@ -41,6 +41,10 @@ function Call(){
                   this.config = JSON.parse(http.responseText);
 
                   callView.loadNumbers();
+
+                  if (googleContacts.isUsingGoogleContact()){
+                    googleContacts.getContacts();
+                  }
                 }else{
                   callView.showErrorLoginMessage("Incorrect login or password");
                 }

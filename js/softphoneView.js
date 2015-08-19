@@ -372,6 +372,32 @@ function CallView(){
 
     }
   }
+
+  this.showSetting = function(){
+    $("[softphone] .call_panel").hide();
+
+    $(".buttons_bar .head .title_1").html("Setting");
+    $(".buttons_bar .head .title_2").html("Options");
+
+    var panel = $("[softphone] .panel");
+    panel.children().remove();
+    callView.cleanMessage();
+    panel.show();
+    callView.enabledButton("back_button");
+
+    var checked = googleContacts.isUsingGoogleContact() ? 'checked' : '';
+
+    panel.append(
+      "<div class='dialog_panel contact_panel'>" +
+        "<div class='row panel_color'>"  +
+          "<input type='checkbox' id='google_contact_check' " + checked + "/>" +
+          "<label style='font-size:12px'>Use google contact</label>" +
+        "</div>" +
+        '<input type="image" class="ok_button" src="img/ok_button.png" onclick="contact.changeGoogleContactOption()"/>' +
+      "</div>"
+
+    );
+  }
 }
 
 var callView = new CallView();

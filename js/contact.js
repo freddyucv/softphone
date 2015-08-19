@@ -25,7 +25,7 @@ function ContactView(){
 
       this.getContactPanelContent("edit");
 
-      var contacts =  JSON.parse(window.localStorage.contacts);
+      var contacts =  contactView.getContacts();
       $("[softphone] .panel").find("#contact_name").val(contacts[index].name);
       $("[softphone] .panel").find("#contact_number").val(contacts[index].number);
       $("[softphone] .panel").find("#contact_id").val(index);
@@ -84,8 +84,10 @@ function ContactView(){
     callView.cleanMessage();
     contactPanel.show();
 
-    if (window.localStorage.contacts){
-      var contacts =  JSON.parse(window.localStorage.contacts);
+    var contacts =  contactView.getContacts();
+
+    if (contacts){
+
       contactPanel.append("<div class='contacts_fix_container'></div>");
       contactPanel.children(".contacts_fix_container")
         .append("<div class='contacts_container'></div>");
@@ -111,11 +113,13 @@ function ContactView(){
                     "<div class='contact_field'>" +
                       "<img src='img/hombre.png'>" +
                       "<span>" + contacts[i].name + "</span>" +
-                    "</div>" +
+                    "</div>";
 
-                    "<div class='contact_field'>" +
+        var number = (contacts[i].number) ? contacts[i].number : "No tiene numero";
+
+        result +=  "<div class='contact_field'>" +
                       "<img src='img/telefono.png'/>" +
-                      "<span>" + contacts[i].number + "</span>" +
+                      "<span>" + number + "</span>" +
                     "</div>";
 
           if (showEditButtons){
@@ -133,10 +137,10 @@ function ContactView(){
   }
 
   this.searchContacts = function(){
+      var contacts =  contactView.getContacts();
 
-      if (window.localStorage.contacts){
+      if (contacts){
         var search = $("#phoneNumber").val();
-        var contacts =  JSON.parse(window.localStorage.contacts);
 
         var filter = contacts.filter(function(item){
                         var itemNames = item.name.split(" ");
@@ -185,42 +189,73 @@ function ContactView(){
       callView.disenabledButton("ok_login_button");
     }
   }
+
+  this.getContacts = function(){
+    var contacts;
+
+    if (googleContacts.isUsingGoogleContact()){
+      if (window.sessionStorage.contacts){
+        contacts =  JSON.parse(window.sessionStorage.contacts);
+      }else{
+        contacts = googleContacts.auth();
+      }
+    }else{
+      contacts =  JSON.parse(window.localStorage.contacts);
+    }
+
+    return contacts;
+  }
+
+  this.setContacts = function(contacts){
+
+    if (googleContacts.isUsingGoogleContact()){
+      window.sessionStorage.contacts = JSON.stringify(contacts);
+    }else{
+      window.localStorage.contacts = JSON.stringify(contacts);
+    }
+
+  }
 }
 
 var contactView = new ContactView();
 
 function Contact(){
     this.newContact = function(){
+      this.addContact($("#contact_name").val(), $("#contact_number").val());
 
-      var contacts;
+      callView.setContact(contacts);
 
-      if (window.localStorage.contacts){
-        contacts =  JSON.parse(window.localStorage.contacts);
-      }else{
-        contacts =  [];
-      }
-
-      var contact = {
-        name: $("#contact_name").val(),
-        number: $("#contact_number").val()
-      };
-      contacts.push(contact);
-      window.localStorage.contacts = JSON.stringify(contacts);
       callView.showNumbersPanel();
       callView.showMessage("Contact successfully added");
 
       callView.enabledButton("view_contacts");
     }
 
+    this.addContact = function(name, number){
+      var contacts =  contactView.getContacts();
+
+      if (!contacts){
+        contacts =  [];
+      }
+
+      var contact = {
+        name: name,
+        number: number
+      };
+
+      contacts.push(contact);
+    }
+
     this.updateContact = function(){
 
-      var contacts =  JSON.parse(window.localStorage.contacts);
+      var contacts =  contactView.getContacts();
       var id = $("#contact_id").val();
 
       contacts[id].name = $("#contact_name").val();
       contacts[id].number = $("#contact_number").val();
 
-      window.localStorage.contacts = JSON.stringify(contacts);
+      contactView.setContacts(contacts);
+
       callView.showNumbersPanel();
       callView.showMessage("Contact successfully updated");
     }
@@ -236,10 +271,10 @@ function Contact(){
     }
 
     this.deleteContact = function(index){
-      var contacts =  JSON.parse(window.localStorage.contacts);
+      var contacts =  contactView.getContacts();
       delete contacts.splice(index, 1);
 
-      window.localStorage.contacts = JSON.stringify(contacts);
+      contactView.setContacts(contacts);
       contactView.showContacts();
     }
 
@@ -251,6 +286,17 @@ function Contact(){
       call.checkSipStack();
 
       event.stopPropagation();
+    }
+
+    this.changeGoogleContactOption = function(){
+      var useGoogleContact =  $("#google_contact_check").is(":checked");
+
+      window.localStorage.useGoogleContact = useGoogleContact;
+      callView.showNumbersPanel();
+
+      /*if(useGoogleContact){
+
+      }*/
     }
 }
 

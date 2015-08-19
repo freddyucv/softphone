@@ -18,7 +18,7 @@
 
 </head>
 
-<body onload="googleContacts.auth()">
+<body onload="contactView.getContacts()">
   <div softphone>
     <audio id="audio_remote" autoplay="autoplay"></audio>
     <audio id="ringbacktone" loop src="sounds/ringbacktone.wav"></audio>
@@ -39,6 +39,9 @@
           <div class="buttons">
             <input type="image" class="search_contact_button button" src="img/view_contacts.png"
              onclick="contactView.showContacts()"//>
+
+             <input type="image" class="search_contact_button button" src="img/setting.png"
+              onclick="callView.showSetting()"//>
 
              <input type="image" class="search_contact_button button" src="img/exit.jpg"
               onclick="call.logout()"//>
