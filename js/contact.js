@@ -200,7 +200,9 @@ function ContactView(){
         contacts = googleContacts.auth();
       }
     }else{
-      contacts =  JSON.parse(window.localStorage.contacts);
+      if (window.localStorage.contacts){
+        contacts =  JSON.parse(window.localStorage.contacts);
+      }
     }
 
     return contacts;
