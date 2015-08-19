@@ -122,10 +122,10 @@ function ContactView(){
                       "<span>" + number + "</span>" +
                     "</div>";
 
-          if (showEditButtons){
+          if (showEditButtons && !googleContacts.isUsingGoogleContact()){
             result += "<img class='edit_contact' src='img/edit.png' onclick='contactView.editContact(" + i + ")'></img>" +
                       "<img class='delete_contact' src='img/delete.png' onclick='contact.deleteContact(" + i + ")'></img>";
-          }else if(showCallButton){
+          }else if(showCallButton && contacts[i].number){
             result += "<img class='call_contact' src='img/call_button.png' onclick='contact.callAutomaticTipeNumber(event, " + contacts[i].number + ")'></img>";
           }
 
@@ -294,6 +294,7 @@ function Contact(){
       window.localStorage.useGoogleContact = useGoogleContact;
       callView.showNumbersPanel();
 
+      contactView.getContacts();
       /*if(useGoogleContact){
 
       }*/

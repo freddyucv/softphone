@@ -37,12 +37,13 @@ function Call(){
                 var isError = http.responseText.indexOf("Fatal error") != -1;
 
                 if (!isError){
-                  sessionStorage.config = http.responseText;
-                  this.config = JSON.parse(http.responseText);
-
-                  callView.loadNumbers();
 
                   if (googleContacts.isUsingGoogleContact()){
+                    sessionStorage.config = http.responseText;
+                    this.config = JSON.parse(http.responseText);
+
+                    callView.loadNumbers();
+
                     googleContacts.getContacts();
                   }
                 }else{
