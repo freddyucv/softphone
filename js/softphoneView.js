@@ -45,7 +45,8 @@ function CallView(){
     SHOW_CONTACTS: 'SHOW_CONTACTS',
     NEW_CONTACT: 'NEW_CONTACT',
     SHOW_CONTACTS: 'SHOW_CONTACTS',
-    EDIT_CONTACT: "EDIT_CONTACT"
+    EDIT_CONTACT: "EDIT_CONTACT",
+    SETTING: "SETTING"
   };
 
   this.status = [this.panels.NUMBER_PANEL];
@@ -213,6 +214,7 @@ function CallView(){
     callView.disenabledButton("ok_login_button");
 
     $("[softphone] .call_panel").hide();
+    $("[softphone] .panel").hide();
     $("[softphone] .buttons_bar").hide();
     $("[softphone] .main_panel").css('background-image', 'url(../img/blue_background.jpg)');
 
@@ -342,6 +344,8 @@ function CallView(){
       contactView.showContacts();
     }else if (back == this.panels.NEW_CONTACT){
       contactView.newContact();
+    }else if (back == this.panels.SETTING){
+      callView.showSetting();
     }
 
   }
@@ -374,6 +378,8 @@ function CallView(){
   }
 
   this.showSetting = function(){
+    callView.status.push(callView.panels.SETTING);
+
     $("[softphone] .call_panel").hide();
 
     $(".buttons_bar .head .title_1").html("Setting");
