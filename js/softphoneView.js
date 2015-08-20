@@ -392,7 +392,7 @@ function CallView(){
     callView.enabledButton("back_button");
 
     var checked = googleContacts.isUsingGoogleContact() ? 'checked' : '';
-
+    
     panel.append(
       "<div class='dialog_panel contact_panel'>" +
         "<div class='row panel_color'>"  +

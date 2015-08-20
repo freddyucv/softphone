@@ -87,7 +87,7 @@ function GoogleContacts(){
     }
 
     this.isUsingGoogleContact = function(){
-      return window.localStorage.useGoogleContact || window.localStorage.useGoogleContact == 'true';
+      return window.localStorage.useGoogleContact && window.localStorage.useGoogleContact == 'true';
     }
 }
 
