@@ -2,10 +2,6 @@
   <meta charset='ISO-8859-1'>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="css/softphone.css"/>
-  <link rel="stylesheet" type="text/css" href="css/waiting.css"/>
-  <link href='http://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
-
   <style>
     [softphone]{
       max-width:300px;
@@ -18,87 +14,11 @@
 
 </head>
 
-<body onload="contactView.getContacts()">
+<body>
   <div softphone>
-    <audio id="audio_remote" autoplay="autoplay"></audio>
-    <audio id="ringbacktone" loop src="sounds/ringbacktone.wav"></audio>
-    <audio id="dtmfTone" src="sounds/dtmf.wav"></audio>
 
-    <div class="main_panel" onclick="contactView.hideSearchContactsPanel(true, true)">
-      <div class="buttons_bar">
-        <div class="head">
-          <img src="img/small_global_link.png"/>
-          <span class="title_1" style="color:black;margin-left:2%">Call </span>
-          <span class="title_2" style="color:#afafaf">Number</span>
-
-          <!--<span class="regitered_status_panel">
-            <span class="status_label"></span>
-            <span class="status_view"></span>
-          </span>-->
-
-          <div class="buttons">
-            <input type="image" class="search_contact_button button" src="img/view_contacts.png"
-             onclick="contactView.showContacts()"//>
-
-             <input type="image" class="search_contact_button button" src="img/setting.png"
-              onclick="callView.showSetting()"//>
-
-             <input type="image" class="search_contact_button button" src="img/exit.jpg"
-              onclick="call.logout()"//>
-
-             <span class="back" onclick="callView.goBack()">
-               Back
-             </span>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div class="call_panel">
-
-        <div class="search_panel" onblur="contactView.hideSearchContactsPanel()">
-            <input id="phoneNumber" type="text" placeholder="Phone Number or Contact Name"
-                onkeyup="contactView.searchContacts()"/>
-
-            <div id="search_result_content">
-              <div id="search_result"></div>
-            </div>
-        </div>
-
-        <div class="message"></div>
-
-        <div class="numbers_panel">
-
-        </div>
-
-        <div class="call_button_panel">
-          <input type="image" class="new_contact_button" src="img/new_contact.png"
-               onclick="contactView.newContact()"/>
-
-          <input class="call_button" type="image" src="img/call_button.png" onclick="call.checkSipStack()"/>
-
-          <input class="delete_number_button" type="image" src="img/delete_number.png" onclick="callView.deleteNumber()"/>
-        </div>
-      </div>
-
-      <div class="panel">
-
-      </div>
-
-      <div class="c_panel">
-        <div class="message"></div>
-      </div>
   </div>
 
-  <script src="js/SIPml-api.js"></script>
   <script src="js/jquery-1.11.3.min.js"></script>
-
-  <script type="text/javascript" src="js/validator.js"></script>
-  <script type="text/javascript" src="js/softphone.js"></script>
-  <script type="text/javascript" src="js/softphoneView.js"></script>
-  <script type="text/javascript" src="js/contact.js"></script>
-  <script type="text/javascript" src="js/google_contact.js"></script>
-
-  <script src="https://apis.google.com/js/client.js"></script>
+  <script src="js/loader.js"></script>
 </body>

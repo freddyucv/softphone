@@ -18,6 +18,7 @@ function Call(){
         }else{
           this.config = JSON.parse(sessionStorage.config);
           callView.loadNumbers();
+          contactView.getContacts();
         }
     }
 

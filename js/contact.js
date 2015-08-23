@@ -324,11 +324,3 @@ function Contact(){
 
 var contact = new Contact();
 $("#search_result_content").hide();
-
-(
-
-  function(){
-    callView.disenabledButton("back_button");
-
-  }()
-)
