@@ -197,7 +197,7 @@ function ContactView(){
       if (window.sessionStorage.contacts){
         contacts =  JSON.parse(window.sessionStorage.contacts);
       }else{
-        contacts = googleContacts.auth();
+        contacts = googleContacts.getContacts();
       }
     }else{
       if (window.localStorage.contacts){
@@ -223,9 +223,27 @@ var contactView = new ContactView();
 
 function Contact(){
     this.newContact = function(){
-      this.addContact($("#contact_name").val(), $("#contact_number").val());
 
-      callView.setContact(contacts);
+      if(googleContacts.isUsingGoogleContact()){
+        var contact = {};
+
+        contact.title = {};
+        contact.title.type = "text";
+        contact.title["$t"] = $("#contact_name").val();
+
+        contact["gd$phoneNumber"] = [];
+        contact["gd$phoneNumber"].push(
+          {
+            "rel":"http://schemas.google.com/g/2005#other",
+            "$t": $("#contact_number").val()
+          }
+        );
+
+        googleContacts.addContact(contact);
+
+      }else{
+        this.addContact($("#contact_name").val(), $("#contact_number").val());
+      }
 
       callView.showNumbersPanel();
       callView.showMessage("Contact successfully added");
@@ -246,6 +264,7 @@ function Contact(){
       };
 
       contacts.push(contact);
+      contactView.setContacts(contacts);
     }
 
     this.updateContact = function(){
