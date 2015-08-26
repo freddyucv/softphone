@@ -45,7 +45,8 @@
 }
 
 [softphone] .buttons_bar{
-    height: 8%;
+    min-height: 8%;
+    height:auto;
     position: relative;
 }
 
@@ -339,11 +340,9 @@
     overflow: auto;
 }
 
-
-
 [softphone] ::-webkit-scrollbar  {
     width: 4px;
-    height: 98%;
+    height: 4px;
     margin-top: 1%;
 }
 

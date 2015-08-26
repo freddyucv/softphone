@@ -85,6 +85,9 @@ function CallView(){
     this.status.push(this.panels.NUMBER_PANEL);
 
     callView.disenabledButton("back_button");
+
+    $(".buttons_bar .head .title_1").html("Call");
+    $(".buttons_bar .head .title_2").html("Number");
   }
 
   this.loadNumbers = function(){
@@ -215,8 +218,8 @@ function CallView(){
 
     $("[softphone] .call_panel").hide();
     $("[softphone] .panel").hide();
-    $("[softphone] .buttons_bar").hide();
     $("[softphone] .main_panel").css('background-image', 'url(../img/blue_background.jpg)');
+    $("[softphone] .buttons_bar").hide();
 
   }
 
@@ -368,12 +371,18 @@ function CallView(){
       $("[softphone] .numbers_panel div label").css('font-size', '70%');
       $("[softphone] .buttons_bar .buttons input[type='image']").height(15);
       $("[softphone] .buttons_bar").css('height', 'auto');
-      $("[softphone] .buttons_bar").css('display', 'inline-block');
+      $("[softphone] .buttons_bar").css('display', 'block');
     }else if (width < 200){
       $("[softphone] .search_panel input[type='text']").css('font-size', '60%');
       $("[softphone] .numbers_panel div label").css('font-size', '200%');
+    }
 
-
+    if (width < 600){
+      $("[softphone] input[type='text'], [softphone] input[type='password']").css('font-size', '60%');
+      $("[softphone] .ok_login_button").css('font-size', '60%');
+      $("[softphone] .buttons_bar .head span").css('font-size', '60%');
+      $("[softphone] .panel").css('border-width', '0');
+      $("[softphone]").find(".contacts_fix_container").css('overflow', 'scroll');
     }
   }
 
@@ -410,8 +419,6 @@ var callView = new CallView();
 
 (
   function(){
-    call.checkLogin();
-
     var cw = $('[softphone] .numbers_panel span').width();
     $('[softphone] .numbers_panel span').css({'height':cw+'px'});
 
@@ -424,9 +431,11 @@ var callView = new CallView();
     $("[softphone]  .calling_panel").hide();
 
     $("[softphone] .back").hide();
-    callView.hideLoginWaiting();
 
-    callView.makeResponsive();
     callView.disenabledButton("back_button");
+
+    call.checkLogin();
+    callView.hideLoginWaiting();
+    callView.makeResponsive();
   }()
 )

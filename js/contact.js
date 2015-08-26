@@ -2,6 +2,9 @@ function ContactView(){
 
   this.newContact = function(){
 
+    if(googleContacts.isUsingGoogleContact()){
+      callView.showErrorMessage("The adding contacts option is not enabled to google contact");
+    }else{
       $("[softphone] .call_panel").hide();
 
       var contactPanel = $("[softphone] .panel");
@@ -16,6 +19,7 @@ function ContactView(){
 
       callView.enabledButton("back_button");
       callView.disenabledButton("ok");
+    }
   }
 
   this.editContact = function(index){
@@ -103,6 +107,7 @@ function ContactView(){
       callView.showErrorMessage("No contacts to show");
     }
 
+    var width = $("[softphone]").width();
   }
 
   this.getContactsToShow = function(contacts, showEditButtons, showCallButton){
@@ -224,26 +229,7 @@ var contactView = new ContactView();
 function Contact(){
     this.newContact = function(){
 
-      if(googleContacts.isUsingGoogleContact()){
-        var contact = {};
-
-        contact.title = {};
-        contact.title.type = "text";
-        contact.title["$t"] = $("#contact_name").val();
-
-        contact["gd$phoneNumber"] = [];
-        contact["gd$phoneNumber"].push(
-          {
-            "rel":"http://schemas.google.com/g/2005#other",
-            "$t": $("#contact_number").val()
-          }
-        );
-
-        googleContacts.addContact(contact);
-
-      }else{
-        this.addContact($("#contact_name").val(), $("#contact_number").val());
-      }
+      this.addContact($("#contact_name").val(), $("#contact_number").val());
 
       callView.showNumbersPanel();
       callView.showMessage("Contact successfully added");
