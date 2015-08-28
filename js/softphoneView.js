@@ -375,14 +375,13 @@ function CallView(){
     }else if (width < 200){
       $("[softphone] .search_panel input[type='text']").css('font-size', '60%');
       $("[softphone] .numbers_panel div label").css('font-size', '200%');
-    }
 
-    if (width < 600){
       $("[softphone] input[type='text'], [softphone] input[type='password']").css('font-size', '60%');
       $("[softphone] .ok_login_button").css('font-size', '60%');
       $("[softphone] .buttons_bar .head span").css('font-size', '60%');
       $("[softphone] .panel").css('border-width', '0');
       $("[softphone]").find(".contacts_fix_container").css('overflow', 'scroll');
+      
     }
   }
 
