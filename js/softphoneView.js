@@ -191,7 +191,7 @@ function CallView(){
     mainPanel.append(
                         '<div class="dialog_panel panel_login">' +
                             '<div class="row panel_color" style="postion:relative">' +
-                                '<input id="login" type="text" placeholder="Username" onKeyUp="contactView.activeOkLoginButton()"/>' +
+                                '<input id="login" type="text" placeholder="Your e-mail Address" onKeyUp="contactView.activeOkLoginButton()"/>' +
                             '</div>' +
                             '<div class="row panel_color">' +
                               '<input id="password" type="password" placeholder="Password" onKeyUp="contactView.activeOkLoginButton()"/>' +
@@ -381,7 +381,7 @@ function CallView(){
       $("[softphone] .buttons_bar .head span").css('font-size', '60%');
       $("[softphone] .panel").css('border-width', '0');
       $("[softphone]").find(".contacts_fix_container").css('overflow', 'scroll');
-      
+
     }
   }
 

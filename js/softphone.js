@@ -90,14 +90,15 @@ function Call(){
          callView.showMessage("Wait, starting...");
 
          var port = 10062 + (1000 * this.startIntent);
+         //var port = 11060;
 
          var config = {
                          realm: this.config.domain,
                          impi: this.config.username,
                          impu: 'sip:' + this.config.username + "@" + this.config.domain,
                          password: this.config.password,
-                        websocket_proxy_url:'wss://ns313841.ovh.net:' + port,
-                         enable_rtcweb_breaker: true,
+                         //websocket_proxy_url:'wss://ns313841.ovh.net:' + port,
+                         enable_rtcweb_breaker: false,
                          events_listener: { events: '*', listener: this.startEventsListener.bind(this) },
                          sip_headers: [
                                  { name: 'User-Agent', value: 'IM-client/OMA1.0 sipML5-v1.0.0.0' },
@@ -108,7 +109,7 @@ function Call(){
          this.sipStack = new SIPml.Stack(config);
 
  	      this.sipStack.start();
-        this.startIntent++;
+        //this.startIntent++;
      }
 
      this.startEventsListener = function(e){
