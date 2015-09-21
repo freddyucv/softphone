@@ -89,7 +89,7 @@ function Call(){
     this.createSipStack = function(){
          callView.showMessage("Wait, starting...");
 
-         var port = 10062 + (1000 * this.startIntent);
+         //var port = 10062 + (1000 * this.startIntent);
          //var port = 11060;
 
          var config = {
@@ -98,7 +98,7 @@ function Call(){
                          impu: 'sip:' + this.config.username + "@" + this.config.domain,
                          password: this.config.password,
                          //websocket_proxy_url:'wss://ns313841.ovh.net:' + port,
-                         enable_rtcweb_breaker: false,
+                         enable_rtcweb_breaker: true,
                          events_listener: { events: '*', listener: this.startEventsListener.bind(this) },
                          sip_headers: [
                                  { name: 'User-Agent', value: 'IM-client/OMA1.0 sipML5-v1.0.0.0' },
